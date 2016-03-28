@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" data-csrf="{{.csrfToken}}">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Hosty</title>
+	<link rel="stylesheet" href="/assets/app.min.css">
+	<link href="/assets/images/favicon.png" rel="shortcut icon">
+	<script type="text/javascript" src="/assets/app.min.js"></script>
+</head>
+<body class="index">
+	<form action="/paste" method="post">
+		<nav class="sidebar">
+			<div class="header clearfix">
+				<h1 class="title"><a href="/"><i class="fa fa-upload"></i><span class="hidden-xs"> Hosty</span><sup>2</sup></a></h1>
+
+				<div class="topmenu">
+					<div class="greeting">Howdy, <strong>{{.username}}</strong>!</div>
+					<div class="statusline">
+						<span class="statusicons">
+							<span class="status-expire"><i class="fa fa-clock-o"></i></span>
+							<span class="status-selfdestruct"><i class="fa fa-bomb"></i></span>
+							<span class="status-visibility">
+								<i class="fa fa-globe hidden visibility-public"></i>
+								<i class="fa fa-shield hidden visibility-internal"></i>
+								<i class="fa fa-lock hidden visibility-private"></i>
+							</span>
+						</span>
+						<button type="button" class="btn btn-info btn-xs opttoggle"><i class="fa fa-cogs"></i> more</button>
+						<a href="/logout" class="postlink btn btn-danger btn-xs logout"><i class="fa fa-sign-out"></i> Logout</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="group ext-options collapsed">
+				<h2>Options</h2>
+
+				<div class="element dropdown">
+					<label class="label" for="expire">Expire after:</label>
+					<input type="hidden" name="csrftoken" value="{{.csrfToken}}">
+					<select name="expire" id="expire" class="form-control btn-sm">
+						<option value="never">do not expire</option>
+						<option value="1minute">1 minute</option>
+						<option value="5minutes">5 minutes</option>
+						<option value="30minutes">30 minutes</option>
+						<option value="1hour">1 hour</option>
+						<option value="12hours">12 hours</option>
+						<option value="1day">1 day</option>
+						<option value="1week">1 week</option>
+						<option value="1month">1 month</option>
+						<option value="1year">1 year</option>
+					</select>
+				</div>
+
+				<div class="element checkbox">
+					<label class="label" for="selfdestruct">Selfdestruct:</label>
+					<label>
+						<input type="checkbox" name="selfdestruct" id="selfdestruct" value="1">delete after first access
+					</label>
+				</div>
+
+				<div class="element radio">
+					<div class="label">Visibility:</div>
+					<label><input type="radio" name="visibility" value="public"> <i class="fa fa-globe"></i> public <small>for everyone</small></label>
+					<label><input type="radio" name="visibility" value="internal"> <i class="fa fa-shield"></i> internal <small>for logged-in users</small></label>
+					<label><input type="radio" name="visibility" value="private"> <i class="fa fa-lock"></i> private <small>only for you</small></label>
+				</div>
+			</div>
+
+			<div class="group history">
+				<h2>Your recent uploads</h2>
+
+				<ul class="history">
+					{{range .recent}}
+					<li class="{{.Visibility}}">
+						{{if eq .Visibility "public"}}
+						<i class="fa fa-globe"></i>
+						{{else if eq .Visibility "internal"}}
+						<i class="fa fa-shield"></i>
+						{{else if eq .Visibility "private"}}
+						<i class="fa fa-lock"></i>
+						{{end}}
+						<a href="{{.URI}}">{{.Name}}</a>
+						<small><time class="rel" datetime="{{.Date}}"></time></small>
+					</li>
+					{{end}}
+				</ul>
+			</div>
+		</nav>
+
+		<div class="content">
+			<div class="wrapper">
+				<div class="controls">
+					<div class="row cell">
+						<div class="col-lg-4 col-md-4 col-sm-8">
+							<input type="text" name="name" required class="form-control" placeholder="Paste Name" value="{{.name}}">
+						</div>
+						<div class="col-lg-2 col-md-3 col-sm-4 language">
+							<select name="filetype" class="form-control">
+								{{range .languages}}
+								<optgroup label="{{ .GroupName }}">
+									{{range .Options}}
+									<option value="{{.Key}}">{{.Value}}</option>
+									{{end}}
+								</optgroup>
+								{{end}}
+							</select>
+						</div>
+						<div class="col-lg-6 col-md-5 col-sm-12 buttons">
+							<button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Paste</button>
+
+							<span class="btn btn-primary btn-file">
+								<i class="fa fa-folder-open"></i> Upload files… <input type="file" multiple>
+							</span>
+
+							{{if .warning}}
+							<div class="alert alert-danger hidden-md hidden-sm hidden-xs" role="alert">
+								<p class="bg-danger">{{.warning}}</p>
+							</div>
+							{{end}}
+						</div>
+
+						{{if .warning}}
+						<div class="hidden-lg col-md-12 col-sm-12">
+							<div class="alert alert-danger btn-block" role="alert">
+								<p class="bg-danger">{{.warning}}</p>
+							</div>
+						</div>
+						{{end}}
+					</div>
+				</div>
+				<div class="paste">
+					<div class="cell">
+						<textarea name="content" required class="form-control" placeholder="In the beginning the Universe was created. This has made a lot of people very angry and been widely regarded as a bad move &hellip;">{{.content}}</textarea>
+					</div>
+				</div>
+				<div class="footer">
+					<div class="cell">
+						<script type="text/html" id="upload-item">
+							<li class="uploading">
+								<div class="name">
+									<a href="#" class="remover text-muted"><i class="fa fa-minus"></i></a>
+									<span></span>
+								</div>
+								<div class="progress">
+									<div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+										<span class="sr-only">any%</span>
+									</div>
+								</div>
+							</li>
+						</script>
+
+						<ul id="uploads">
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+
+	<div class="drop-overlay"></div>
+
+	<div class="drop-help">
+		<div class="drop-help-inner">
+			<p><i class="fa fa-upload"></i></p>
+			<p>Drop your file(s) here to upload them.</p>
+		</div>
+	</div>
+</body>
+</html>

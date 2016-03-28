@@ -1,0 +1,7 @@
+assets/vendor
+node_modules
+tmp
+uploads
+hosty.exe
+Godeps
+config.yaml

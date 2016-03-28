@@ -1,0 +1,576 @@
+environment: release # release, debug, test
+
+# '%hosty%' will be replaced with the full path to the hosty binary
+directories:
+  storage:   '%hosty%/uploads'
+  icons:     '%hosty%/assets/filetypes'
+  templates: '%hosty%/templates'
+  www:       '%hosty%/www'
+
+# configure the available user accounts
+accounts:
+  admin: # this is the username
+    # you can use `./hosty hash` to interactively hash a password
+    password: '<bcrypt-encoded password hash here>'
+    oauth:
+      - 'google:<gmail address here>'
+      - 'google:<another gmail address here>'
+      - 'github:<github username here>'
+
+# To use OAuth, you have to register your own apps and configure them here accordingly.
+#oauth:
+#  google:
+#    clientId:     '<...>'
+#    clientSecret: '<...>'
+#    scopes:       ['email']
+#  github:
+#    clientId:     '<...>'
+#    clientSecret: '<...>'
+#    scopes:       ['email']
+
+# low-level control over the HTTP listening
+server:
+  listen: '0.0.0.0:8080'
+  baseUrl: 'http://localhost'
+  maxRequestSize: 5242880 # 5MB
+
+  # TLS is independent of the port used above. If you want TLS, set the following
+  # options, otherwise leave them blank. On a production site, it may be a good
+  # idea to let a dedicated webserver like nginx handle TLS termination.
+  certificateFile: ''
+  privateKeyFile: ''
+  ciphers:
+    - TLS_RSA_WITH_RC4_128_SHA
+    - TLS_RSA_WITH_3DES_EDE_CBC_SHA
+    - TLS_RSA_WITH_AES_128_CBC_SHA
+    - TLS_RSA_WITH_AES_256_CBC_SHA
+    - TLS_ECDHE_ECDSA_WITH_RC4_128_SHA
+    - TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA
+    - TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA
+    - TLS_ECDHE_RSA_WITH_RC4_128_SHA
+    - TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA
+    - TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA
+    - TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA
+    - TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+    - TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256
+    - TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+    - TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384
+    - TLS_FALLBACK_SCSV
+
+# session configuration
+session:
+  cookieName: session
+  lifetime: 30m # must be parsable by Go, e.g. "10m" or "30m20s"
+  cookieSecure: false # set this to true when running via TLS
+  cookiePath: '/'
+
+# This configures the language dropdown when using pastes. Reference the
+# languages defined in `filetypes` here.
+pastebin:
+  - name: Commonly Used
+    filetypes: ['text', 'php', 'javascript', 'json', 'css', 'docker', 'go', 'html', 'python', 'sql', 'twig', 'xml', 'yaml']
+  - name: Others
+    filetypes: []
+
+# all known filetypes; not that Hosty allows uploading *any* file, even
+# those not mentioned here. For unknown files, only a download link is
+# shown.
+filetypes:
+  ##############################################################################
+  # images
+
+  image_jpeg:
+    name: JPEG Image
+    mimetype: image/jpeg
+    displayAs: image
+    patterns: ['*.jpg', '*.jpeg', '*.JPG', '*.JPEG']
+
+  image_png:
+    name: PNG Image
+    mimetype: image/png
+    displayAs: image
+    patterns: ['*.png', '*.PNG']
+
+  image_gif:
+    name: GIF Image
+    mimetype: image/gif
+    displayAs: image
+    patterns: ['*.gif', '*.GIF']
+
+  image_webp:
+    name: WebP Image
+    mimetype: image/webp
+    displayAs: image
+    patterns: ['*.webp']
+
+  ##############################################################################
+  # binary files
+
+  archive_zip:
+    name: ZIP Archive
+    mimetype: application/zip
+    displayAs: link
+    patterns: ['*.zip', '*.ZIP']
+    icon: zip-file
+
+  archive_rar:
+    name: RAR Archive
+    mimetype: application/x-rar-compressed
+    displayAs: link
+    patterns: ['*.RAR', '*.RAR']
+    icon: rar
+
+  archive_tar:
+    name: TAR Archive
+    mimetype: application/x-gtar
+    displayAs: link
+    patterns: ['*.tar']
+    icon: tar
+
+  archive_gzip:
+    name: GZip Archive
+    mimetype: application/x-gzip
+    displayAs: link
+    patterns: ['*.gz']
+    icon: gzip-variant
+
+  archive_7zip:
+    name: 7-Zip Archive
+    mimetype: application/x-7z-compressed
+    displayAs: link
+    patterns: ['*.7z']
+    icon: 7z-variant
+
+  font_ttf:
+    name: TrueType Font
+    mimetype: application/x-font-ttf
+    displayAs: link
+    patterns: ['*.ttf', '*.TTF']
+    icon: ttf-symbol
+
+  font_woff:
+    name: Web Open Font
+    mimetype: application/font-woff
+    displayAs: link
+    patterns: ['*.woff']
+
+  font_woff2:
+    name: Web Open Font 2
+    mimetype: application/font-woff2
+    displayAs: link
+    patterns: ['*.woff2']
+
+  font_eot:
+    name: Embedded OpenType Font
+    mimetype: application/vnd.ms-fontobject
+    displayAs: link
+    patterns: ['*.eot']
+
+  font_otf:
+    name: OpenType Font
+    mimetype: application/x-font-opentype
+    displayAs: link
+    patterns: ['*.otf']
+    icon: otf
+
+  video_mkv:
+    name: Matroska Video
+    mimetype: video/x-matroska
+    displayAs: link
+    patterns: ['*.mkv', '*.mk3d']
+
+  video_mp4:
+    name: MPEG-4 Video (mp4)
+    mimetype: video/mp4
+    displayAs: link
+    patterns: ['*.mp4', '*.m4a', '*.m4p', '*.m4b', '*.m4r', '*.m4v']
+    icon: mp4-symbol
+
+  video_webm:
+    name: WebM Video
+    mimetype: video/webm
+    displayAs: link
+    patterns: ['*.webm']
+
+  video_avi:
+    name: Windows Video (avi)
+    mimetype: video/vnd.avi
+    displayAs: link
+    patterns: ['*.avi']
+    icon: avi-variant
+
+  audio_wav:
+    name: Waveform Audio File (wav)
+    mimetype: audio/wav
+    displayAs: link
+    patterns: ['*.wav']
+    icon: wav-variant
+
+  audio_mp3:
+    name: MP3 File
+    mimetype: audio/mpeg
+    displayAs: link
+    patterns: ['*.mp3']
+    icon: mp3-variant
+
+  audio_flac:
+    name: Free Lossless Audio Codec File
+    mimetype: audio/x-flac
+    displayAs: link
+    patterns: ['*.flac']
+
+  audio_mka:
+    name: Matroska Audio
+    mimetype: audio/x-matroska
+    displayAs: link
+    patterns: ['*.mka']
+
+  keepass:
+    name: KeePass database
+    mimetype: application/octet-stream
+    displayAs: link
+    patterns: ['*.kdb', '*.kdbx']
+
+  ##############################################################################
+  # text formats
+  # see `pygmentize -L lexers` to check what lexers your local Pygments supports
+
+  autohotkey:
+    name: AutoHotkey
+    pygments: autohotkey
+    mimetype: text/autohotkey
+    displayAs: text
+    patterns: ['*.ahk', '*.ahkl']
+
+  apacheconf:
+    name: Apache Config
+    pygments: apacheconf
+    mimetype: text/apacheconf
+    displayAs: text
+    patterns: ['.htaccess', 'apache.conf', 'apache2.conf']
+
+  applescript:
+    name: AppleScript
+    pygments: applescript
+    mimetype: text/applescript
+    displayAs: text
+    patterns: ['*.applescript']
+
+  autoit:
+    name: AutoIt
+    pygments: autoit
+    mimetype: text/autoit
+    displayAs: text
+    patterns: ['*.au3']
+
+  awk:
+    name: Awk
+    pygments: awk
+    mimetype: text/awk
+    displayAs: text
+    patterns: ['*.awk']
+
+  bash:
+    name: Bash
+    pygments: bash
+    mimetype: text/bash
+    displayAs: text
+    patterns: ['*.sh', '*.ksh', '*.bash', '*.ebuild', '*.eclass', '.bashrc', 'bashrc', '.bash_*', 'bash_*', 'PKGBUILD']
+
+  winbatch:
+    name: Batchfile
+    pygments: winbatch
+    mimetype: text/winbatch
+    displayAs: text
+    patterns: ['*.bat', '*.cmd']
+
+  bbcode:
+    name: BBCode
+    pygments: bbcode
+    mimetype: text/bbcode
+    displayAs: text
+
+  cmake:
+    name: CMake
+    pygments: cmake
+    mimetype: text/cmake
+    displayAs: text
+    patterns: ['*.cmake', 'CMakeLists.txt']
+
+  coffeescript:
+    name: CoffeeScript
+    pygments: coffeescript
+    mimetype: text/coffeescript
+    displayAs: text
+    patterns: ['*.coffee']
+
+  cpp:
+    name: C++
+    pygments: cpp
+    mimetype: text/cpp
+    displayAs: text
+    patterns: ['*.cpp', '*.hpp', '*.c++', '*.h++', '*.cc', '*.hh', '*.cxx', '*.hxx', '*.C', '*.H', '*.cp', '*.CPP']
+
+  csharp:
+    name: C#
+    pygments: csharp
+    mimetype: text/csharp
+    displayAs: text
+    patterns: ['*.cs']
+
+  css:
+    name: CSS
+    pygments: css
+    mimetype: text/css
+    displayAs: text
+    patterns: ['*.css']
+
+  d:
+    name: D
+    pygments: d
+    mimetype: text/d
+    displayAs: text
+    patterns: ['*.d', '*.di']
+
+  dart:
+    name: Dart
+    pygments: dart
+    mimetype: text/dart
+    displayAs: text
+    patterns: ['*.dart']
+
+  delphi:
+    name: Delphi
+    pygments: delphi
+    mimetype: text/delphi
+    displayAs: text
+    patterns: ['*.pas']
+
+  diff:
+    name: Diff
+    pygments: diff
+    mimetype: text/diff
+    displayAs: text
+    patterns: ['*.diff', '*.patch']
+
+  docker:
+    name: Docker
+    pygments: docker
+    mimetype: text/docker
+    displayAs: text
+    patterns: ['Dockerfile', '*.docker']
+
+  dtd:
+    name: DTD
+    pygments: dtd
+    mimetype: text/dtd
+    displayAs: text
+    patterns: ['*.dtd']
+
+  go:
+    name: Go
+    pygments: go
+    mimetype: text/go
+    displayAs: text
+    patterns: ['*.go']
+
+  html:
+    name: HTML
+    pygments: html
+    mimetype: text/html
+    displayAs: text
+    patterns: ['*.html', '*.htm', '*.xhtml']
+
+  http:
+    name: HTTP
+    pygments: http
+    mimetype: text/http
+    displayAs: text
+
+  ini:
+    name: INI
+    pygments: ini
+    mimetype: text/ini
+    displayAs: text
+    patterns: ['*.ini', '*.cfg']
+
+  jade:
+    name: Jade
+    pygments: jade
+    mimetype: text/jade
+    displayAs: text
+    patterns: ['*.jade']
+
+  javascript:
+    name: JavaScript
+    pygments: javascript
+    mimetype: text/javascript
+    displayAs: text
+    patterns: ['*.js']
+
+  json:
+    name: JSON
+    pygments: json
+    mimetype: text/json
+    displayAs: text
+    patterns: ['*.json', 'composer.lock', '.bowerrc', '.jshintrc']
+
+  make:
+    name: Makefile
+    pygments: make
+    mimetype: text/make
+    displayAs: text
+    patterns: ['*.mak', '*.mk', 'Makefile', 'makefile', 'Makefile.*', 'GNUmakefile']
+
+  nginx:
+    name: nginx Config
+    pygments: nginx
+    mimetype: text/nginx
+    displayAs: text
+
+  pascal:
+    name: Pasca
+    pygments: pascal
+    mimetype: text/pascal
+    displayAs: text
+    patterns: ['*.pas']
+
+  perl:
+    name: Perl
+    pygments: perl
+    mimetype: text/perl
+    displayAs: text
+    patterns: ['*.pl', '*.pm', '*.t']
+
+  perl6:
+    name: Perl 6
+    pygments: perl6
+    mimetype: text/perl6
+    displayAs: text
+    patterns: ['*.pl', '*.pm', '*.nqp', '*.p6', '*.6pl', '*.p6l', '*.pl6', '*.6pm', '*.p6m', '*.pm6', '*.t']
+
+  php:
+    name: PHP
+    pygments: php
+    mimetype: text/php
+    displayAs: text
+    patterns: ['*.php', '*.php[3457]', '*.inc']
+
+  powershell:
+    name: PowerShell
+    pygments: powershell
+    mimetype: text/powershell
+    displayAs: text
+    patterns: ['*.ps1', '*.psm1']
+
+  python:
+    name: Python
+    pygments: python
+    mimetype: text/python
+    displayAs: text
+    patterns: ['*.py', '*.pyw', '*.sc', 'SConstruct', 'SConscript', '*.tac', '*.sage']
+
+  python3:
+    name: Python 3
+    pygments: python3
+    mimetype: text/python3
+    displayAs: text
+    patterns: ['*.py', '*.pyw', '*.py3']
+
+  ruby:
+    name: Ruby
+    pygments: ruby
+    mimetype: text/ruby
+    displayAs: text
+    patterns: ['*.rb', '*.rbw', 'Rakefile', '*.rake', '*.gemspec', '*.rbx', '*.duby']
+
+  registry:
+    name: Windows Registry
+    pygments: registry
+    mimetype: text/registry
+    displayAs: text
+    patterns: ['*.reg']
+
+  scss:
+    name: SCSS
+    pygments: scss
+    mimetype: text/scss
+    displayAs: text
+    patterns: ['*.scss']
+
+  smarty:
+    name: Smarty
+    pygments: smarty
+    mimetype: text/smarty
+    displayAs: text
+    patterns: ['*.tpl']
+
+  sql:
+    name: SQL
+    pygments: sql
+    mimetype: text/sql
+    displayAs: text
+    patterns: ['*.sql']
+
+  swift:
+    name: Swift
+    pygments: swift
+    mimetype: text/swift
+    displayAs: text
+    patterns: ['*.swift']
+
+  tex:
+    name: TeX
+    pygments: tex
+    mimetype: text/tex
+    displayAs: text
+    patterns: ['*.tex', '*.aux', '*.toc']
+
+  text:
+    name: Plain Text
+    pygments: text
+    mimetype: text/plain
+    displayAs: text
+    patterns: ['*.txt', '*.md', '*.markdown', '*.textile', '.hgtags', '.hgignore', '.gitignore', '*.less', 'README', 'LICENSE', 'CHANGELOG', 'CONTRIBUTORS', '.dockerignore']
+
+  twig:
+    name: Twig
+    pygments: twig
+    mimetype: text/twig
+    displayAs: text
+    patterns: ['*.twig']
+
+  vbnet:
+    name: VB.net
+    pygments: vbnet
+    mimetype: text/vbnet
+    displayAs: text
+    patterns: ['*.vb', '*.bas']
+
+  vim:
+    name: Vim
+    pygments: vim
+    mimetype: text/vim
+    displayAs: text
+    patterns: ['*.vim', '.vimrc', '.exrc', '.gvimrc', '_vimrc', '_exrc', '_gvimrc', 'vimrc', 'gvimrc']
+
+  xml:
+    name: XML
+    pygments: xml
+    mimetype: text/xml
+    displayAs: text
+    patterns: ['*.xml', '*.xsl', '*.rss', '*.xslt', '*.xsd', '*.wsdl', '*.wsf', '*.svg']
+
+  xslt:
+    name: XSLT
+    pygments: xslt
+    mimetype: text/xslt
+    displayAs: text
+    patterns: ['*.xsl', '*.xslt', '*.xpl']
+
+  yaml:
+    name: YAML
+    pygments: yaml
+    mimetype: text/yaml
+    displayAs: text
+    patterns: ['*.yaml', '*.yml']

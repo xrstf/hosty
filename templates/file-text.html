@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>{{.file.Name}}</title>
+	<link rel="stylesheet" href="/assets/app.min.css">
+	<link href="/assets/images/favicon.png" rel="shortcut icon">
+</head>
+<body class="view">
+	<div class="container-fluid">
+		<div class="row" id="file-header">
+			{{if .username}}
+				<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+					<h1>{{.file.Name}}</h1>
+				</div>
+				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+					{{if .isOwner}}
+					<form method="post" action="{{.viewURI}}">
+						<h1 class="filebuttons">
+							<input type="hidden" name="csrftoken" value="{{.csrfToken}}">
+							<input type="hidden" name="_method" value="DELETE">
+							<button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i> Delete</button>
+							<a href="/" class="btn btn-default btn-sm"><i class="fa fa-home"></i></a>
+						</h1>
+					</form>
+					{{else}}
+					<h1 class="filebuttons">
+						<a href="/" class="btn btn-default btn-sm"><i class="fa fa-home"></i></a>
+					</h1>
+					{{end}}
+				</div>
+			{{else}}
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<h1>{{.file.Name}}</h1>
+				</div>
+			{{end}}
+		</div>
+
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				{{if .stale}}
+					<div class="alert alert-info">
+						<h4><i class="fa fa-bomb"></i> Self Destructed</h4>
+						<p>
+							This content has already been accessed and deleted; all that is left is some meta information.<br>
+							You can delete the remainders as well by using the regular delete function above.
+						</p>
+					</div>
+
+					<dl class="dl-horizontal">
+						{{with .file.DestructorData}}
+						<dt>Access at</dt>
+						<dd>{{.Time}}</dd>
+						<dt>Access by</dt>
+						<dd>{{if eq .Username ""}}anonymous user{{else}}{{.Username}}{{end}}</dd>
+						<dt>User Agent</dt>
+						<dd>{{.UserAgent}}</dd>
+						<dt>IP Address</dt>
+						<dd>{{.IpAddress}}</dd>
+						{{end}}
+					</dl>
+				{{else}}
+					{{if .vanished}}
+						<div class="alert alert-info">
+							<h4><i class="fa fa-exclamation-triangle"></i> <strong>Do not refresh</strong> this page!</h4>
+							<p>
+								This page has been setup so that it can only be viewed <strong>once</strong>. This is it right now,
+								this one time. If you refresh/reload/close the page, the content will not be here anymore.<br>
+								Please copy the information below, if needed.
+							</p>
+						</div>
+					{{else}}
+						{{if eq .file.Selfdestruct 1}}
+							<div class="alert alert-info">
+								<h4><i class="fa fa-bomb"></i> Self Destruct enabled</h4>
+								<p>
+									This paste will destroy itself after the first access to it, though you as the author
+									may access this file as often as you like until it has been destroyed.
+								</p>
+							</div>
+						{{end}}
+					{{end}}
+				{{end}}
+			</div>
+		</div>
+
+		{{if not .stale}}
+		<div class="row">
+			<div class="col-lg-12">
+				{{if not .vanished}}
+					<p class="raw-link"><a href="{{.rawURI}}">Raw ({{.filesize}})</a></p>
+				{{end}}
+				<div class="highlighted"><pre>{{.content}}</pre></div>
+			</div>
+		</div>
+		{{end}}
+	</div>
+</body>
+</html>

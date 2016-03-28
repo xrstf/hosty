@@ -1,0 +1,12 @@
+{
+  "name": "Hosty2",
+  "version": "0.0.1",
+  "dependencies": {
+    "jquery": "2.*",
+    "bootswatch": "3.3.*",
+    "font-awesome": "4.5.*",
+    "jquery-timeago": "1.5.*",
+    "lessfonts-open-sans": "1.0.*",
+    "js-cookie": "2.1.*"
+  }
+}

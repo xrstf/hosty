@@ -1,0 +1,621 @@
+@fontsPath: "/assets/fonts/OpenSans";
+
+@import "pygments.less";
+@import "vendor/bootswatch/cosmo/variables.less";
+@import "vendor/lessfonts-open-sans/src/less/300.less";
+@import "vendor/lessfonts-open-sans/src/less/300italic.less";
+@import "vendor/lessfonts-open-sans/src/less/400.less";
+@import "vendor/lessfonts-open-sans/src/less/400italic.less";
+@import "vendor/lessfonts-open-sans/src/less/600.less";
+@import "vendor/lessfonts-open-sans/src/less/600italic.less";
+@import "vendor/lessfonts-open-sans/src/less/700.less";
+@import "vendor/lessfonts-open-sans/src/less/700italic.less";
+@import "vendor/lessfonts-open-sans/src/less/800.less";
+@import "vendor/lessfonts-open-sans/src/less/800italic.less";
+
+body, html, select, option, input, button, textarea, label {
+	font-family: "Open Sans", sans-serif;
+	font-size: 13px;
+}
+
+h1, h2, h3, h4, p {
+	font-family: "Open Sans", sans-serif;
+}
+
+pre {
+	font-size: 12px;
+	font-family: monospace !important;
+}
+
+/* overwrite cosmo styling */
+.form-control {
+	padding: 5px 9px;
+	height: 39px;
+	font-size: 14px;
+}
+
+/* general layout: index page, extra small viewport */
+
+body.index {
+	padding: 15px;
+}
+
+
+
+.collapsed {
+	display: none;
+}
+
+
+
+.group.history {
+	display: none;
+}
+
+
+
+.ext-options {
+	padding: 10px;
+	margin-bottom: 20px;
+	background-color: #f5f5f5;
+	border: 1px solid #e3e3e3;
+	border-radius: 4px;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
+	box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
+
+	h2 {
+		display: none;
+	}
+}
+
+
+
+.header {
+	margin-bottom: 10px;
+}
+
+
+
+.title {
+	float: left;
+	font-size: 1.5em;
+	margin: 0;
+	line-height: 45px;
+
+	a {
+		color: inherit;
+		text-decoration: none;
+	}
+}
+
+
+
+.group {
+	margin: 10px 0;
+
+	h2 {
+		font-size: 1.5em;
+		padding-bottom: 3px;
+		border-bottom: 1px solid #ddd;
+		color: #999;
+	}
+}
+
+
+
+.sidebar {
+	.label {
+		display: block;
+		float: left;
+		font-size: 1.1em;
+		font-style: italic;
+		margin-left: -10px;
+		padding-left: 10px;
+		text-align: left;
+		color: inherit;
+		font-weight: normal;
+		font-style: normal;
+	}
+
+	.radio {
+		margin-bottom: 0;
+
+		label {
+			display: block;
+		}
+
+		small {
+			display: inline;
+			color: #999;
+			margin-left: 5px;
+		}
+	}
+
+	.dropdown select {
+		width: auto;
+		min-width: 200px;
+		padding: 3px;
+		height: 33px;
+	}
+
+	.dropdown .label {
+		line-height: 27px;
+	}
+
+	select,
+	.checkbox label:last-child,
+	.radio label {
+		display: block;
+		margin-left: 100px;
+	}
+}
+
+
+
+.topmenu {
+	margin: 0;
+	float: right;
+	text-align: right;
+}
+
+.opttoggle,
+.logout {
+	display: inline-block;
+	margin-left: 10px;
+}
+
+
+
+.statusline {
+	margin-top: 5px;
+}
+
+.statusicons {
+	font-size: 1.4em;
+	vertical-align: middle;
+
+	i {
+		display: inline-block;
+		width: 20px;
+	}
+
+	span {
+		padding-left: 5px;
+
+		&.disabled {
+			opacity: 0.2;
+
+			.fa {
+				color: #000;
+			}
+		}
+	}
+
+	.fa-clock-o {
+		color: #337ab7;
+	}
+
+	.fa-bomb {
+		color: #d9534f;
+	}
+
+	.visibility-public {
+		color: #5cb85c;
+	}
+
+	.visibility-internal {
+		color: #f0ad4e;
+	}
+
+	.visibility-private {
+		color: #d9534f;
+	}
+}
+
+
+.controls {
+	.alert {
+		margin-bottom: 0;
+		display: inline-block;
+		padding: 7px 10px;
+		vertical-align: middle;
+
+		&.btn-block {
+			margin-top: 10px;
+		}
+	}
+
+	.language {
+		margin-top: 10px;
+	}
+
+	.buttons {
+		margin-top: 10px;
+		text-align: center;
+
+		.btn {
+			width: 45%;
+			padding: 8px 9px;
+		}
+	}
+}
+
+
+@media (min-width: 992px) {
+	.controls .buttons {
+		margin-top: inherit;
+		text-align: inherit;
+
+		.btn {
+			width: auto;
+		}
+	}
+}
+
+
+
+.paste {
+	.cell {
+		padding-top: 10px;
+		height: 150px;
+	}
+
+	textarea {
+		width: 100%;
+		height: 100%;
+		font-family: monospace;
+	}
+}
+
+
+
+.history {
+	margin-top: 10px;
+	padding-left: 0;
+
+	li {
+		list-style-type: none;
+		padding-bottom: 5px;
+	}
+
+	small {
+		display: block;
+		padding-left: 14px;
+		color: #999;
+	}
+}
+
+
+
+.footer {
+	padding-top: 10px;
+}
+
+
+
+#uploads {
+	margin-top: 10px;
+	clear: left;
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+
+	.name {
+		overflow: hidden;
+		white-space: nowrap;
+		padding-left: 3px;
+	}
+
+	.progress {
+		height: 10px;
+		margin: 2px 0 7px 0;
+	}
+
+	li:nth-child(even) {
+		background: #f5f5f5;
+	}
+
+	li.uploading .remover:hover {
+		cursor: not-allowed;
+	}
+
+	li.finished .remover:hover {
+		cursor: pointer;
+		color: #ff0039;
+	}
+}
+
+
+
+.btn-file {
+	position: relative;
+	overflow: hidden;
+}
+
+.btn-file input[type=file] {
+	position: absolute;
+	top: 0;
+	right: 0;
+	min-width: 100%;
+	min-height: 100%;
+	font-size: 100px;
+	text-align: right;
+	filter: alpha(opacity=0);
+	opacity: 0;
+	outline: none;
+	background: white;
+	cursor: inherit;
+	display: block;
+}
+
+@media (min-width: 992px) {
+	.btn-file {
+		margin-right: 15px;
+	}
+}
+
+
+
+.drop-overlay {
+	position: absolute;
+	top: 0;
+	right: 0;
+	left: 0;
+	bottom: 0;
+	visibility: hidden;
+	z-index: 999;
+}
+
+.drop-help {
+	position: absolute;
+	top: 0;
+	right: 0;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	height: 100%;
+	visibility: hidden;
+	display: table;
+	z-index: 998;
+	opacity: 0.8;
+	background: white;
+	color: #999;
+}
+
+.drop-help-inner {
+	display: table-cell;
+	vertical-align: middle;
+	text-align: center;
+	font-size: 30px;
+	border: 5px dashed #999;
+
+	i {
+		font-size: 100px;
+	}
+}
+
+/* when going from extra small to small, show the sidebar */
+@media (min-width: 768px) {
+	body {
+		padding: 0;
+	}
+
+	.collapsed {
+		display: inherit;
+	}
+
+	.sidebar {
+		display: inherit;
+		position: fixed;
+		left: 0;
+		top: 0;
+		bottom: 0;
+		background: #f5f5f5;
+		width: 250px;
+		padding: 0 15px 0 10px;
+
+		-moz-box-shadow: inset -16px 0 20px -20px #bbb;
+		-webkit-box-shadow: inset -16px 0 20px -20px #bbb;
+		box-shadow: inset -16px 0 20px -20px #bbb;
+
+		.label {
+			float: none;
+			font-size: 1em;
+			font-style: italic;
+			margin-bottom: 0;
+		}
+
+		select,
+		.checkbox label:last-child,
+		.radio label {
+			display: block;
+			margin-left: 0;
+		}
+
+		.dropdown .label {
+			line-height: 1em;
+		}
+	}
+
+	.title {
+		float: none;
+		text-align: center;
+		font-size: 2.5em;
+		margin: 10px 0;
+	}
+
+	.topmenu {
+		float: none;
+		text-align: left;
+		position: relative;
+	}
+
+	.greeting {
+		line-height: 22px;
+	}
+
+	.statusline {
+		position: absolute;
+		top: 0;
+		right: 0;
+		margin: 0;
+	}
+
+	.statusicons,
+	.opttoggle {
+		display: none;
+	}
+
+	.group h2 {
+		display: block;
+	}
+
+	.ext-options {
+		background: none;
+		padding: 0;
+		border: 0 none;
+		box-shadow: none;
+	}
+
+	.controls .language {
+		margin-top: inherit;
+	}
+
+	.content {
+		position: fixed;
+		top: 10px;
+		right: -5px;
+		bottom: 10px;
+		left: 245px;
+		padding: 0; /* reset from xs styling */
+
+		.wrapper {
+			display: table;
+			width: 100%;
+			height: 100%;
+		}
+
+		.row {
+			display: table-row;
+		}
+
+		.cell {
+			display: table-cell;
+		}
+
+		.controls {
+			display: table-row;
+		}
+
+		.paste .cell {
+			padding-left: 15px;
+			padding-right: 15px;
+		}
+
+		.footer .cell {
+			padding-left: 15px;
+			padding-right: 15px;
+		}
+
+		.footer {
+			display: table-row;
+		}
+	}
+
+	.paste {
+		height: 100%;
+		display: table-row;
+	}
+
+	.group.history {
+		display: inherit;
+	}
+
+	#uploads {
+		li {
+			padding: 2px 0;
+		}
+
+		li:last-child {
+			padding-bottom: 0;
+		}
+
+		.name {
+			float: left;
+			width: 60%;
+			line-height: 22px;
+		}
+
+		.progress {
+			width: 40%;
+			height: 18px;
+			margin: 2px 0;
+		}
+	}
+}
+
+/* file view layout: index page, extra small viewport */
+
+#file-header h1 {
+	font-size: 25px;
+}
+
+.img-responsive {
+	display: inline-block;
+	padding: 6px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+}
+
+.filebuttons {
+	text-align: center;
+	margin-top: 0;
+}
+
+.fileicon {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.fileicon, .fileicon img {
+	width: 75px;
+	height: 75px;
+}
+
+.hash {
+	margin-top: 20px;
+}
+
+@media (min-width: 768px) {
+	.fileicon, .fileicon img {
+		width: 100px;
+		height: 100px;
+	}
+}
+
+.download h2 {
+	font-size: 25px;
+	display: inline-block;
+	margin: 0;
+	vertical-align: middle;
+	text-align: left;
+
+	small {
+		font-size: 50%;
+		display: block;
+		margin-top: 5px;
+	}
+}
+
+@media (min-width: 768px) {
+	.filebuttons {
+		text-align: right;
+		margin-top: 20px;
+	}
+}
+
+/* login view layout */
+
+body.login h1 {
+	font-size: 27px;
+}
