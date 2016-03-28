@@ -37,7 +37,7 @@ Screenshots
 
 ### Text View
 
-![Text View](https://h.xrstf.de/f/7o98vlmqbmel375l1dpf/raw)
+![Text View](https://h.xrstf.de/f/im6nmchzeh320u2u2v3u/raw)
 
 ### File View
 
