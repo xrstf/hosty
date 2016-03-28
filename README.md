@@ -19,33 +19,27 @@ social media crap or other external resources.
 Screenshots
 -----------
 
-Login screen
-^^^^^^^^^^^^
+### Login screen
 
 ![Login Screen](https://h.xrstf.de/f/rrieyu2t8r9yfxic0wxp/raw)
 
-File Upload View
-^^^^^^^^^^^^^^^^
+### File Upload View
 
 ![File Upload View](https://h.xrstf.de/f/2fuoc5ib65xqdlnhlyha/raw)
 
-Mobile View
-^^^^^^^^^^^
+### Mobile View
 
 ![Mobile View](https://h.xrstf.de/f/7lyaghbie1x3eyimz246/raw)
 
-Image View
-^^^^^^^^^^
+### Image View
 
 ![Image View](https://h.xrstf.de/f/m1oieblh3vbuomzecbsl/raw)
 
-Text View
-^^^^^^^^^
+### Text View
 
 ![Text View](https://h.xrstf.de/f/7o98vlmqbmel375l1dpf/raw)
 
-File View
-^^^^^^^^^
+### File View
 
 ![File View](https://h.xrstf.de/f/119dzazb10d7ht3uk8mz/raw)
 
