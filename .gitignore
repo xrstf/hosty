@@ -5,3 +5,4 @@ uploads
 hosty.exe
 Godeps
 config.yaml
+version.go

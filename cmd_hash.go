@@ -8,9 +8,6 @@ import (
 )
 
 func cmdHash() {
-	fmt.Print("Hosty2 - bcrypt hashing tool\n")
-	fmt.Print("============================\n")
-	fmt.Print("\n")
 	fmt.Print("   Password: ")
 
 	reader := bufio.NewReader(os.Stdin)

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 
@@ -12,6 +13,10 @@ var store *storage
 var hostyPath string
 
 func main() {
+	fmt.Print("Hosty2 - version " + version + "\n")
+	fmt.Print("========================\n")
+	fmt.Print("\n")
+
 	var err error
 
 	if len(os.Args) < 2 {
