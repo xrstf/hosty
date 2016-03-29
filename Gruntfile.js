@@ -1,7 +1,7 @@
 module.exports = function(grunt) {
 	grunt.initConfig({
 		clean: {
-			assets:  ['www/', 'tmp/assets/']
+			assets:  ['www/fonts/', 'www/images/', 'www/*.css', 'www/*.js', 'tmp/']
 		},
 
 		less: {
