@@ -1,7 +1,7 @@
 ; systemd example unit
 ; Put this file in /etc/systemd/system/ and then enable&start the service:
-;   # systemctl enable hosty
-;   # systemctl start hosty
+;   $ sudo systemctl enable hosty
+;   $ sudo systemctl start hosty
 
 [Unit]
 Description=hosty webapp
