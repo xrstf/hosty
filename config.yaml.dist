@@ -3,8 +3,7 @@ environment: release # release, debug, test
 # '%hosty%' will be replaced with the full path to the hosty binary
 directories:
   storage:   '%hosty%/uploads'
-  icons:     '%hosty%/assets/filetypes'
-  templates: '%hosty%/templates'
+  resources: '%hosty%/resources'
   www:       '%hosty%/www'
 
 # configure the available user accounts

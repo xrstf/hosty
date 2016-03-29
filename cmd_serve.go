@@ -21,7 +21,7 @@ func cmdServe(db *sqlx.DB) {
 
 	// setup Gin router
 	router := gin.Default()
-	router.LoadHTMLGlob(filepath.Join(config.Directories.Templates, "*"))
+	router.LoadHTMLGlob(filepath.Join(config.Directories.Resources, "templates", "*"))
 	router.Static("/assets/", config.Directories.Www)
 	router.Use(databaseMiddleware(db))
 	router.Use(methodOverride())

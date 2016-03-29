@@ -32,9 +32,8 @@ type configuration struct {
 
 	Directories struct {
 		Storage   string `yaml:"storage"`
-		Icons     string `yaml:"icons"`
+		Resources string `yaml:"resources"`
 		Www       string `yaml:"www"`
-		Templates string `yaml:"templates"`
 	}
 
 	Accounts map[string]accountConfig `yaml:"accounts"`
@@ -88,9 +87,8 @@ func loadConfiguration(filename string, hostyPath string) (*configuration, error
 	}
 
 	config.Directories.Storage = strings.Replace(config.Directories.Storage, "%hosty%", hostyPath, -1)
-	config.Directories.Icons = strings.Replace(config.Directories.Icons, "%hosty%", hostyPath, -1)
+	config.Directories.Resources = strings.Replace(config.Directories.Resources, "%hosty%", hostyPath, -1)
 	config.Directories.Www = strings.Replace(config.Directories.Www, "%hosty%", hostyPath, -1)
-	config.Directories.Templates = strings.Replace(config.Directories.Templates, "%hosty%", hostyPath, -1)
 
 	return &config, nil
 }

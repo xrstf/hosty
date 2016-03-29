@@ -99,7 +99,7 @@ func viewFileAction(c *gin.Context) {
 		fileType.IconFile = "blank-file"
 	}
 
-	iconPath := filepath.Join(config.Directories.Icons, fileType.IconFile+".svg")
+	iconPath := filepath.Join(config.Directories.Resources, "filetypes", fileType.IconFile+".svg")
 
 	read, err := ioutil.ReadFile(iconPath)
 	if err == nil {
