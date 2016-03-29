@@ -1,10 +1,11 @@
 environment: release # release, debug, test
 
-# '%hosty%' will be replaced with the full path to the hosty binary
+# '%hosty%' will be replaced with the full path to the hosty binary,
+# '%config%' will be replaced with the full path to the used dconfig file.
 directories:
-  storage:   '%hosty%/uploads'
-  resources: '%hosty%/resources'
-  www:       '%hosty%/www'
+  storage:   '%config%/uploads'
+  resources: '%config%/resources'
+  www:       '%config%/www'
 
 # configure the available user accounts
 accounts:
@@ -31,7 +32,7 @@ accounts:
 server:
   listen: '0.0.0.0:8080'
   baseUrl: 'http://localhost'
-  maxRequestSize: 5242880 # 5MB
+  maxRequestSize: 52428800 # 50 MB
 
   # TLS is independent of the port used above. If you want TLS, set the following
   # options, otherwise leave them blank. On a production site, it may be a good

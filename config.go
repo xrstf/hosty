@@ -86,9 +86,16 @@ func loadConfiguration(filename string, hostyPath string) (*configuration, error
 		return &config, errors.New("Invalid environment (" + config.Environment + ") configured.")
 	}
 
-	config.Directories.Storage = strings.Replace(config.Directories.Storage, "%hosty%", hostyPath, -1)
-	config.Directories.Resources = strings.Replace(config.Directories.Resources, "%hosty%", hostyPath, -1)
-	config.Directories.Www = strings.Replace(config.Directories.Www, "%hosty%", hostyPath, -1)
+	absfile, _ := filepath.Abs(filename)
+	configDir := filepath.Dir(absfile)
+
+	adjustPaths := func(s string) string {
+		return strings.Replace(strings.Replace(s, "%config%", configDir, -1), "%hosty%", hostyPath, -1)
+	}
+
+	config.Directories.Storage = adjustPaths(config.Directories.Storage)
+	config.Directories.Resources = adjustPaths(config.Directories.Resources)
+	config.Directories.Www = adjustPaths(config.Directories.Www)
 
 	return &config, nil
 }
