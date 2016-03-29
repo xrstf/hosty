@@ -68,9 +68,15 @@ session:
 # languages defined in `filetypes` here.
 pastebin:
   - name: Commonly Used
-    filetypes: ['text', 'php', 'javascript', 'json', 'css', 'docker', 'go', 'html', 'python', 'sql', 'twig', 'xml', 'yaml']
-  - name: Others
-    filetypes: []
+    filetypes: [text, apacheconf, css, docker, javascript, json, go, html, nginx, php, python, sql, twig, xml, yaml]
+
+  - name: All
+    filetypes: [
+      apacheconf, applescript, autoit, awk, bash, winbatch, bbcode, cmake, coffeescript, cpp, csharp,
+      css, d, dart, delphi, diff, docker, dtd, go, html, http, ini, jade, javascript, json, make,
+      nginx, pascal, perl, perl6, php, powershell, python, python3, ruby, registry, scss, smarty,
+      sql, swift, tex, text, twig, vbnet, vim, xml, xslt, yaml
+    ]
 
 # all known filetypes; not that Hosty allows uploading *any* file, even
 # those not mentioned here. For unknown files, only a download link is
