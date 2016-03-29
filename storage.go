@@ -5,6 +5,7 @@ import (
 	"errors"
 	"io"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
 	"regexp"
@@ -88,7 +89,11 @@ type storage struct {
 }
 
 func NewStorage(db *sqlx.DB, directory string) *storage {
-	return &storage{db, directory}
+	store := &storage{db, directory}
+
+	go store.purgeExpired()
+
+	return store
 }
 
 func newPostID() (string, error) {
@@ -347,6 +352,28 @@ func (s *storage) deleteFromDatabase(post *postMedata) error {
 	}
 
 	return nil
+}
+
+// purgeExpired is run as a gorutine
+func (s *storage) purgeExpired() {
+	for {
+		// It's not critical to run this often, as the expiry is checked on file
+		// access anyway, so this loop is more of a cleanup.
+		<-time.After(15 * time.Minute)
+
+		now := int(time.Now().Unix())
+		posts := make([]postMedata, 0)
+		s.database.Select(&posts, "SELECT * FROM posts WHERE expires IS NOT NULL AND expires < $1 ORDER BY id ASC", now)
+
+		for _, post := range posts {
+			err := s.Destroy(&post)
+			if err == nil {
+				log.Println("Successfully purged expired post " + post.ID + ".")
+			} else {
+				log.Println("Could not purge post " + post.ID + ": " + err.Error())
+			}
+		}
+	}
 }
 
 func writeFile(filename string, content string) error {
