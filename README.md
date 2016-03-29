@@ -48,27 +48,27 @@ Screenshots
 
 ### Login screen
 
-![Login Screen](https://h.xrstf.de/f/rrieyu2t8r9yfxic0wxp/raw)
+![Login Screen](https://h.xrstf.de/r/PGEpXOMTeLjhnQmrTBeThjSVjZVpgMjCvuRBbKaekm/hosty-login.png)
 
 ### File Upload View
 
-![File Upload View](https://h.xrstf.de/f/2fuoc5ib65xqdlnhlyha/raw)
+![File Upload View](https://h.xrstf.de/r/PEzXhNNHgQCXwyrgOuZTLxEUddjQWxcIRWlBMsQWuD/hosty-index.png)
 
 ### Mobile View
 
-![Mobile View](https://h.xrstf.de/f/7lyaghbie1x3eyimz246/raw)
+![Mobile View](https://h.xrstf.de/r/ITeJyfdWXZKnfsTCNfpEihInQzJnqeFRQfqOQorzEG/hosty-mobile.png)
 
 ### Image View
 
-![Image View](https://h.xrstf.de/f/m1oieblh3vbuomzecbsl/raw)
+![Image View](https://h.xrstf.de/r/MeVpSQXspEWcSxxCVHlHVcwGxqoTZZnZYSNzUBYXFb/hosty-image.png)
 
 ### Text View
 
-![Text View](https://h.xrstf.de/f/im6nmchzeh320u2u2v3u/raw)
+![Text View](https://h.xrstf.de/r/ZAbkAPInDWAQRUrKnCFpZjLhAGGhkxGqqpoDPPwwWK/hosty-text.png)
 
 ### File View
 
-![File View](https://h.xrstf.de/f/119dzazb10d7ht3uk8mz/raw)
+![File View](https://h.xrstf.de/r/BuHLIbyCNMEbbOgDgocQAwigxWIVuOPGSYhmnkPUxG/hosty-file.png)
 
 License
 -------
