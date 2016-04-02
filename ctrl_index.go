@@ -85,7 +85,7 @@ func getBaseHTMLContext(c *gin.Context) gin.H {
 
 	expiries := make([]dropdownOption, 0)
 
-	for _, exp := range config.Expiries {
+	for _, exp := range config.AllowedExpiries(username) {
 		expiries = append(expiries, dropdownOption{Key: exp.Ident, Value: exp.Name})
 	}
 

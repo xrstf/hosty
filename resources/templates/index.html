@@ -19,7 +19,9 @@
 					<div class="greeting">Howdy, <strong>{{.username}}</strong>!</div>
 					<div class="statusline">
 						<span class="statusicons">
+							{{if gt (len .expiries) 1}}
 							<span class="status-expire"><i class="fa fa-clock-o"></i></span>
+							{{end}}
 							<span class="status-selfdestruct"><i class="fa fa-bomb"></i></span>
 							<span class="status-visibility">
 								<i class="fa fa-globe hidden visibility-public"></i>
@@ -36,6 +38,7 @@
 			<div class="group ext-options collapsed">
 				<h2>Options</h2>
 
+				{{if gt (len .expiries) 1}}
 				<div class="element dropdown">
 					<label class="label" for="expire">Expire after:</label>
 					<input type="hidden" name="csrftoken" value="{{.csrfToken}}">
@@ -45,6 +48,11 @@
 						{{end}}
 					</select>
 				</div>
+				{{else}}
+					{{range .expiries}}
+					<input type="hidden" name="expire" value="{{.Key}}">
+					{{end}}
+				{{end}}
 
 				<div class="element checkbox">
 					<label class="label" for="selfdestruct">Selfdestruct:</label>

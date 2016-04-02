@@ -16,6 +16,7 @@ import (
 type accountConfig struct {
 	Password string   `yaml:"password"`
 	OAuth    []string `yaml:"oauth"`
+	Expiries []string
 }
 
 type filetypeConfig struct {
@@ -183,6 +184,32 @@ func (c *configuration) CipherSuites() []uint16 {
 	}
 
 	return ciphers
+}
+
+func (c *configuration) AllowedExpiries(username string) []*expiryConfig {
+	result := make([]*expiryConfig, 0)
+
+	if username != "" {
+		acc := c.AccountByUsername(username)
+		if acc == nil {
+			return result
+		}
+
+		// only restrict the subset if a list is given at all
+		if len(acc.Expiries) > 0 {
+			for _, ident := range acc.Expiries {
+				result = append(result, c.Expiry(ident))
+			}
+
+			return result
+		}
+	}
+
+	for idx := range c.Expiries {
+		result = append(result, &c.Expiries[idx])
+	}
+
+	return result
 }
 
 func (c *configuration) Expiry(ident string) *expiryConfig {

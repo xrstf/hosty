@@ -10,12 +10,19 @@ directories:
 # configure the available user accounts
 accounts:
   admin: # this is the username
-    # you can use `./hosty hash` to interactively hash a password
+    # you can use `./hosty hash` to interactively hash a password;
+    # the password can be left empty if OAuth identities are configured.
     password: '<bcrypt-encoded password hash here>'
-    oauth:
-      - 'google:<gmail address here>'
-      - 'google:<another gmail address here>'
-      - 'github:<github username here>'
+
+    # you can link a single Hosty account to multiple OAuth identities
+    #oauth:
+    #  - 'google:<gmail address here>'
+    #  - 'google:<another gmail address here>'
+    #  - 'github:<github username here>'
+
+    # restrict the allowed expiries for this account; if not set, all
+    # defined (see below) expiries are usable
+    #expiries: [1hour, 1day, 1week]
 
 # To use OAuth, you have to register your own apps and configure them here accordingly.
 #oauth:

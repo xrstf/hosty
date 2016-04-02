@@ -15,13 +15,16 @@ type PostFormData struct {
 	Visibility   string `form:"visibility" binding:"required"`
 }
 
-func (p PostFormData) ExpiresAt() (*time.Time, error) {
-	expiry := config.Expiry(p.Expire)
-	if expiry == nil {
-		return nil, errors.New("Invalid expire value given.")
+func (p PostFormData) ExpiresAt(username string) (*time.Time, error) {
+	expiries := config.AllowedExpiries(username)
+
+	for _, exp := range expiries {
+		if exp.Ident == p.Expire {
+			return exp.AddTo(time.Now())
+		}
 	}
 
-	return expiry.AddTo(time.Now())
+	return nil, errors.New("Invalid expire value given.")
 }
 
 func (p PostFormData) VisibilityCode() (string, error) {
@@ -37,8 +40,8 @@ func (p PostFormData) VisibilityCode() (string, error) {
 	}
 }
 
-func (p PostFormData) Valid() bool {
-	_, err := p.ExpiresAt()
+func (p PostFormData) Valid(username string) bool {
+	_, err := p.ExpiresAt(username)
 	if err != nil {
 		return false
 	}
@@ -59,8 +62,8 @@ type PasteFormData struct {
 	Content  string `form:"content" binding:"required"`
 }
 
-func (p PasteFormData) Valid() bool {
-	if !p.PostFormData.Valid() {
+func (p PasteFormData) Valid(username string) bool {
+	if !p.PostFormData.Valid(username) {
 		return false
 	}
 
@@ -88,11 +91,11 @@ func pasteAction(c *gin.Context) {
 	var formData PasteFormData
 	var err error
 
+	session := getSession(c)
 	errStatus := http.StatusInternalServerError
 
-	if c.Bind(&formData) == nil && formData.Valid() {
-		session := getSession(c)
-		expiresAt, _ := formData.ExpiresAt()
+	if c.Bind(&formData) == nil && formData.Valid(session.Username()) {
+		expiresAt, _ := formData.ExpiresAt(session.Username())
 		visibility, _ := formData.VisibilityCode()
 		ft := config.FileTypeByIdentifier(formData.FileType)
 
@@ -139,11 +142,11 @@ func uploadAction(c *gin.Context) {
 	// bind form data
 	var formData PostFormData
 
-	if c.Bind(&formData) == nil && formData.Valid() {
-		expiresAt, _ := formData.ExpiresAt()
-		visibility, _ := formData.VisibilityCode()
+	session := getSession(c)
 
-		session := getSession(c)
+	if c.Bind(&formData) == nil && formData.Valid(session.Username()) {
+		expiresAt, _ := formData.ExpiresAt(session.Username())
+		visibility, _ := formData.VisibilityCode()
 
 		originalFilename := header.Filename
 		fileIdent := config.FileTypeIdentByFilename(originalFilename)
