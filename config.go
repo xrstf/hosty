@@ -27,6 +27,37 @@ type filetypeConfig struct {
 	Patterns  []string `yaml:"patterns"`
 }
 
+type expiryConfig struct {
+	Ident    string
+	Name     string
+	Duration string
+	Days     int
+	Months   int
+	Years    int
+}
+
+func (e expiryConfig) AddTo(t time.Time) (*time.Time, error) {
+	if len(e.Duration) > 0 {
+		d, err := time.ParseDuration(e.Duration)
+		if err != nil {
+			return nil, err
+		}
+
+		result := t.Add(d)
+
+		return &result, nil
+	}
+
+	// this represents "no expiry"
+	if e.Days == 0 && e.Months == 0 && e.Years == 0 {
+		return nil, nil
+	}
+
+	result := t.AddDate(e.Years, e.Months, e.Days)
+
+	return &result, nil
+}
+
 type configuration struct {
 	Environment string `yaml:"environment"`
 
@@ -49,6 +80,7 @@ type configuration struct {
 		FileTypes []string `yaml:"filetypes"`
 	}
 
+	Expiries  []expiryConfig
 	FileTypes map[string]filetypeConfig
 
 	Server struct {
@@ -151,6 +183,16 @@ func (c *configuration) CipherSuites() []uint16 {
 	}
 
 	return ciphers
+}
+
+func (c *configuration) Expiry(ident string) *expiryConfig {
+	for _, exp := range c.Expiries {
+		if exp.Ident == ident {
+			return &exp
+		}
+	}
+
+	return nil
 }
 
 func (c *configuration) AccountByUsername(username string) *accountConfig {

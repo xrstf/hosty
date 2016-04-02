@@ -41,14 +41,14 @@ func setupIndexCtrl(r *gin.Engine) {
 	})
 }
 
-type languageOption struct {
+type dropdownOption struct {
 	Key   string
 	Value string
 }
 
 type languageTree struct {
 	GroupName string
-	Options   []languageOption
+	Options   []dropdownOption
 }
 
 func getBaseHTMLContext(c *gin.Context) gin.H {
@@ -60,12 +60,12 @@ func getBaseHTMLContext(c *gin.Context) gin.H {
 	for _, pastebin := range config.Pastebin {
 		t := languageTree{
 			GroupName: pastebin.Name,
-			Options:   make([]languageOption, 0),
+			Options:   make([]dropdownOption, 0),
 		}
 
 		for _, filetype := range pastebin.FileTypes {
 			if ft := config.FileTypeByIdentifier(filetype); ft != nil {
-				t.Options = append(t.Options, languageOption{
+				t.Options = append(t.Options, dropdownOption{
 					Key:   filetype,
 					Value: ft.Name,
 				})
@@ -83,9 +83,16 @@ func getBaseHTMLContext(c *gin.Context) gin.H {
 		username = session.Username()
 	}
 
+	expiries := make([]dropdownOption, 0)
+
+	for _, exp := range config.Expiries {
+		expiries = append(expiries, dropdownOption{Key: exp.Ident, Value: exp.Name})
+	}
+
 	return gin.H{
 		"csrfToken": csrfToken,
 		"username":  username,
 		"languages": trees,
+		"expiries":  expiries,
 	}
 }

@@ -40,16 +40,9 @@
 					<label class="label" for="expire">Expire after:</label>
 					<input type="hidden" name="csrftoken" value="{{.csrfToken}}">
 					<select name="expire" id="expire" class="form-control btn-sm">
-						<option value="never">do not expire</option>
-						<option value="1minute">1 minute</option>
-						<option value="5minutes">5 minutes</option>
-						<option value="30minutes">30 minutes</option>
-						<option value="1hour">1 hour</option>
-						<option value="12hours">12 hours</option>
-						<option value="1day">1 day</option>
-						<option value="1week">1 week</option>
-						<option value="1month">1 month</option>
-						<option value="1year">1 year</option>
+						{{range .expiries}}
+						<option value="{{.Key}}">{{.Value}}</option>
+						{{end}}
 					</select>
 				</div>
 

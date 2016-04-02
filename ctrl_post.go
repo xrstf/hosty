@@ -16,36 +16,12 @@ type PostFormData struct {
 }
 
 func (p PostFormData) ExpiresAt() (*time.Time, error) {
-	if p.Expire == "never" {
-		return nil, nil
-	}
-
-	expires := time.Now()
-
-	switch p.Expire {
-	case "1minute":
-		expires = expires.Add(1 * time.Minute)
-	case "5minutes":
-		expires = expires.Add(5 * time.Minute)
-	case "30minutes":
-		expires = expires.Add(30 * time.Minute)
-	case "1hour":
-		expires = expires.Add(1 * time.Hour)
-	case "12hours":
-		expires = expires.Add(12 * time.Hour)
-	case "1day":
-		expires = expires.AddDate(0, 0, 1)
-	case "1week":
-		expires = expires.AddDate(0, 0, 7)
-	case "1month":
-		expires = expires.AddDate(0, 1, 0)
-	case "1year":
-		expires = expires.AddDate(1, 0, 0)
-	default:
+	expiry := config.Expiry(p.Expire)
+	if expiry == nil {
 		return nil, errors.New("Invalid expire value given.")
 	}
 
-	return &expires, nil
+	return expiry.AddTo(time.Now())
 }
 
 func (p PostFormData) VisibilityCode() (string, error) {
