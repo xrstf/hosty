@@ -56,6 +56,20 @@ func (pm *postMedata) DestructorData() *destructorData {
 	return data
 }
 
+func (pm *postMedata) UploadedTime() time.Time {
+	return time.Unix(int64(pm.Uploaded), 0)
+}
+
+func (pm *postMedata) ExpiresTime() *time.Time {
+	if pm.Expires == nil {
+		return nil
+	}
+
+	t := time.Unix(int64(*pm.Expires), 0)
+
+	return &t
+}
+
 func NewPostMetadata(name string, uploader string, expiresAt *time.Time, visibility string, selfdestruct bool, filetype string, size int) *postMedata {
 	pm := &postMedata{
 		Name:         name,
@@ -221,6 +235,13 @@ func (s *storage) FindByID(postID string) (*postMedata, error) {
 	}
 
 	return &post, nil
+}
+
+func (s *storage) FindAll(owner string) []postMedata {
+	posts := make([]postMedata, 0)
+	s.database.Select(&posts, "SELECT * FROM posts WHERE uploader = $1 ORDER BY uploaded DESC", owner)
+
+	return posts
 }
 
 func (s *storage) FindRecent(owner string, limit int) []postMedata {

@@ -134,104 +134,107 @@ jQuery(function($) {
 	// drag&drop file upload logic
 	// based on http://stackoverflow.com/a/33917000/564807
 
-	var dropZone = $('.drop-overlay')[0];
-	var dropHelp = $('.drop-help')[0];
+	if ($('body').is('.index')) {
+		var dropZone = $('.drop-overlay')[0];
+		var dropHelp = $('.drop-help')[0];
 
-	function showDropZone() {
-		dropZone.style.visibility = 'visible';
-		dropHelp.style.visibility = 'visible';
-	}
+		function showDropZone() {
+			dropZone.style.visibility = 'visible';
+			dropHelp.style.visibility = 'visible';
+		}
 
-	function hideDropZone() {
-		dropZone.style.visibility = 'hidden';
-		dropHelp.style.visibility = 'hidden';
-	}
+		function hideDropZone() {
+			dropZone.style.visibility = 'hidden';
+			dropHelp.style.visibility = 'hidden';
+		}
 
-	function allowDrag(e) {
-		if (true) {  // Test that the item being dragged is a valid one
-			e.dataTransfer.dropEffect = 'copy';
+		function allowDrag(e) {
+			if (true) {  // Test that the item being dragged is a valid one
+				e.dataTransfer.dropEffect = 'copy';
+				e.preventDefault();
+			}
+		}
+
+		function handleDrop(e) {
 			e.preventDefault();
+			hideDropZone();
 		}
-	}
 
-	function handleDrop(e) {
-		e.preventDefault();
-		hideDropZone();
-	}
+		window.addEventListener('dragenter', showDropZone);
 
-	window.addEventListener('dragenter', showDropZone);
+		dropZone.addEventListener('dragenter', allowDrag);
+		dropZone.addEventListener('dragover', allowDrag);
+		dropZone.addEventListener('dragleave', hideDropZone);
+		dropZone.addEventListener('drop', handleDrop);
 
-	dropZone.addEventListener('dragenter', allowDrag);
-	dropZone.addEventListener('dragover', allowDrag);
-	dropZone.addEventListener('dragleave', hideDropZone);
-	dropZone.addEventListener('drop', handleDrop);
+		// uploading functionality
 
-	// uploading functionality
+		function setProgress(node, percent) {
+			var complete = percent >= 100;
 
-	function setProgress(node, percent) {
-		var complete = percent >= 100;
-
-		$(node).find('.state').text(percent + '%');
-		$(node).find('.progress-bar')
-			.css('width', percent + '%')
-			.attr('aria-valuenow', percent)
-			.toggleClass('active', !complete)
-			.toggleClass('progress-bar-info', !complete)
-			.toggleClass('progress-bar-success', complete);
-	}
-
-	html5upload.initialize({
-		maxSimultaneousUploads: 3,
-		uploadUrl: '/upload',
-		dropContainer: dropZone,
-		inputField: $('.btn-file input')[0],
-		key: 'file',
-
-		data: function() {
-			return {
-				expire:       $('#expire').val() || 'never',
-				selfdestruct: $('#selfdestruct').prop('checked') ? 1 : 0,
-				visibility:   $('input[name=visibility]:checked').val() || 'public',
-				csrftoken:    $('html').data('csrf')
-			};
-		},
-
-		onFileAdded: function (file) {
-			var node = $($('#upload-item').html());
-
-			node.find('.name span').text(file.fileName);
-			$('#uploads').append(node);
-
-			file.on({
-				// Called after received response from the server
-				onCompleted: function(response) {
-					try {
-						response = JSON.parse(response);
-					}
-					catch (e) {
-						return;
-					}
-
-					setProgress(node, 100);
-					node.removeClass('uploading').addClass('finished');
-
-					if (response.status === 'ok') {
-						node.find('.name span').after(
-							$('<a>').text(file.fileName).attr('href', response.uri).attr('target', '_blank')
-						).remove();
-					}
-					else {
-						node.find('.progress-bar').removeClass('progress-bar-success').removeClass('progress-bar-info').addClass('progress-bar-danger');
-						node.find('.name span').addClass('text-danger');
-					}
-				},
-
-				onProgress: function (progress, fileSize, uploadedBytes) {
-					setProgress(node, parseInt(progress, 10));
-				}
-			});
+			$(node).find('.state').text(percent + '%');
+			$(node).find('.progress-bar')
+				.css('width', percent + '%')
+				.attr('aria-valuenow', percent)
+				.toggleClass('active', !complete)
+				.toggleClass('progress-bar-info', !complete)
+				.toggleClass('progress-bar-success', complete);
 		}
-	});
 
+		html5upload.initialize({
+			maxSimultaneousUploads: 3,
+			uploadUrl: '/upload',
+			dropContainer: dropZone,
+			inputField: $('.btn-file input')[0],
+			key: 'file',
+
+			data: function() {
+				return {
+					expire:       $('#expire').val() || 'never',
+					selfdestruct: $('#selfdestruct').prop('checked') ? 1 : 0,
+					visibility:   $('input[name=visibility]:checked').val() || 'public',
+					csrftoken:    $('html').data('csrf')
+				};
+			},
+
+			onFileAdded: function (file) {
+				var node = $($('#upload-item').html());
+
+				node.find('.name span').text(file.fileName);
+				$('#uploads').append(node);
+
+				file.on({
+					// Called after received response from the server
+					onCompleted: function(response) {
+						try {
+							response = JSON.parse(response);
+						}
+						catch (e) {
+							return;
+						}
+
+						setProgress(node, 100);
+						node.removeClass('uploading').addClass('finished');
+
+						if (response.status === 'ok') {
+							node.find('.name span').after(
+								$('<a>').text(file.fileName).attr('href', response.uri).attr('target', '_blank')
+							).remove();
+						}
+						else {
+							node.find('.progress-bar').removeClass('progress-bar-success').removeClass('progress-bar-info').addClass('progress-bar-danger');
+							node.find('.name span').addClass('text-danger');
+						}
+					},
+
+					onProgress: function (progress, fileSize, uploadedBytes) {
+						setProgress(node, parseInt(progress, 10));
+					}
+				});
+			}
+		});
+	}
+
+	jQuery.timeago.settings.allowFuture = true;
 	jQuery('time.rel').timeago();
 });

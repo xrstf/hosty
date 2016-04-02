@@ -2,18 +2,10 @@ package main
 
 import (
 	"net/http"
-	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/xrstf/hosty/session"
 )
-
-type recentUpload struct {
-	postMedata
-
-	URI  string
-	Date string
-}
 
 func setupIndexCtrl(r *gin.Engine) {
 	r.GET("/", func(c *gin.Context) {
@@ -23,18 +15,8 @@ func setupIndexCtrl(r *gin.Engine) {
 			renderLoginForm(c, http.StatusUnauthorized, "", "", "")
 		} else {
 			session := ctx.Session()
-			recent := make([]recentUpload, 0)
-
-			for _, upload := range store.FindRecent(session.Username(), 10) {
-				recent = append(recent, recentUpload{
-					postMedata: upload,
-					URI:        fileURI(&upload, false),
-					Date:       time.Unix(int64(upload.Uploaded), 0).Format(time.RFC3339),
-				})
-			}
-
 			viewCtx := getBaseHTMLContext(c)
-			viewCtx["recent"] = recent
+			viewCtx["recent"] = store.FindRecent(session.Username(), 10)
 
 			c.HTML(http.StatusOK, "index.html", viewCtx)
 		}

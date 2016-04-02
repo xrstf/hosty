@@ -4,7 +4,6 @@ import (
 	"crypto/tls"
 	"log"
 	"net/http"
-	"path/filepath"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jmoiron/sqlx"
@@ -21,10 +20,12 @@ func cmdServe(db *sqlx.DB) {
 
 	// setup Gin router
 	router := gin.Default()
-	router.LoadHTMLGlob(filepath.Join(config.Directories.Resources, "templates", "*"))
 	router.Static("/assets/", config.Directories.Www)
 	router.Use(databaseMiddleware(db))
 	router.Use(methodOverride())
+
+	// init templates
+	setupTemplates(router)
 
 	// setup session
 	lifetime := config.Session.Lifetime
@@ -42,6 +43,7 @@ func cmdServe(db *sqlx.DB) {
 	router.Use(session.Middleware(sessionName, *lifetime, cookieOpt, sessionIDBytes))
 
 	setupIndexCtrl(router)
+	setupHistoryCtrl(router)
 	setupLoginCtrl(router)
 	setupOAuthCtrl(router)
 	setupPostCtrl(router)

@@ -16,7 +16,7 @@
 				<h1 class="title"><a href="/"><i class="fa fa-upload"></i><span class="hidden-xs"> Hosty</span><sup>2</sup></a></h1>
 
 				<div class="topmenu">
-					<div class="greeting">Howdy, <strong>{{.username}}</strong>!</div>
+					<div class="greeting">Howdy, <strong>{{shorten .username 12}}</strong>!</div>
 					<div class="statusline">
 						{{if .hasOptions}}
 						<span class="statusicons">
@@ -28,9 +28,9 @@
 							{{end}}
 							{{if gt (len .visibilities) 1}}
 							<span class="status-visibility">
-								{{if .visibilities.public}}<i class="fa fa-globe hidden visibility-public"></i>{{end}}
-								{{if .visibilities.internal}}<i class="fa fa-shield hidden visibility-internal"></i>{{end}}
-								{{if .visibilities.private}}<i class="fa fa-lock hidden visibility-private"></i>{{end}}
+								{{if .visibilities.public}}{{visicon "public" "hidden"}}{{end}}
+								{{if .visibilities.internal}}{{visicon "internal" "hidden"}}{{end}}
+								{{if .visibilities.private}}{{visicon "private" "hidden"}}{{end}}
 							</span>
 							{{end}}
 						</span>
@@ -75,9 +75,9 @@
 				{{if gt (len .visibilities) 1}}
 				<div class="element radio">
 					<div class="label">Visibility:</div>
-					{{if .visibilities.public}}<label><input type="radio" name="visibility" value="public"> <i class="fa fa-globe"></i> public <small>for everyone</small></label>{{end}}
-					{{if .visibilities.internal}}<label><input type="radio" name="visibility" value="internal"> <i class="fa fa-shield"></i> internal <small>for logged-in users</small></label>{{end}}
-					{{if .visibilities.private}}<label><input type="radio" name="visibility" value="private"> <i class="fa fa-lock"></i> private <small>only for you</small></label>{{end}}
+					{{if .visibilities.public}}<label><input type="radio" name="visibility" value="public"> {{visicon "public" ""}} public <small>for everyone</small></label>{{end}}
+					{{if .visibilities.internal}}<label><input type="radio" name="visibility" value="internal"> {{visicon "internal" ""}} internal <small>for logged-in users</small></label>{{end}}
+					{{if .visibilities.private}}<label><input type="radio" name="visibility" value="private"> {{visicon "private" ""}} private <small>only for you</small></label>{{end}}
 				</div>
 				{{else}}
 					{{range $key, $val := .visibilities}}
@@ -87,20 +87,16 @@
 			</div>
 
 			<div class="group history">
-				<h2>Your recent uploads</h2>
+				<h2>History <a href="/history" class="btn btn-xs btn-info"><i class="fa fa-list-ul"></i> view all</a></h2>
+				<p class="text-center">
+
+				</p>
 
 				<ul class="history">
 					{{range .recent}}
 					<li class="{{.Visibility}}">
-						{{if eq .Visibility "public"}}
-						<i class="fa fa-globe"></i>
-						{{else if eq .Visibility "internal"}}
-						<i class="fa fa-shield"></i>
-						{{else if eq .Visibility "private"}}
-						<i class="fa fa-lock"></i>
-						{{end}}
-						<a href="{{.URI}}">{{.Name}}</a>
-						<small><time class="rel" datetime="{{.Date}}"></time></small>
+						{{visicon .Visibility ""}} <a href="{{fileURI .}}" title="{{.Name}}">{{shorten .Name 25}}</a>
+						<small>{{timeago .UploadedTime}}</small>
 					</li>
 					{{end}}
 				</ul>
@@ -112,7 +108,7 @@
 				<div class="controls">
 					<div class="row cell">
 						<div class="col-lg-4 col-md-4 col-sm-8">
-							<input type="text" name="name" required class="form-control" placeholder="Paste Name" value="{{.name}}">
+							<input type="text" name="name" required class="form-control" placeholder="Paste Name" autofocus value="{{.name}}">
 						</div>
 						<div class="col-lg-2 col-md-3 col-sm-4 language">
 							<select name="filetype" class="form-control">
@@ -151,6 +147,7 @@
 				<div class="paste">
 					<div class="cell">
 						<textarea name="content" required class="form-control" placeholder="In the beginning the Universe was created. This has made a lot of people very angry and been widely regarded as a bad move &hellip;">{{.content}}</textarea>
+						<p class="history-link text-center"><a href="/history" class="btn btn-sm btn-info"><i class="fa fa-history"></i> Upload History</a></p>
 					</div>
 				</div>
 				<div class="footer">

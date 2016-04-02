@@ -120,7 +120,6 @@ func viewFileAction(c *gin.Context) {
 	viewCtx["vanished"] = vanished
 	viewCtx["stale"] = stale
 	viewCtx["displayType"] = fileType.DisplayAs
-	viewCtx["filesize"] = formatFilesize(uint64(metadata.Size))
 	viewCtx["viewURI"] = fileURI(metadata, false)
 	viewCtx["rawURI"] = fileURI(metadata, true)
 	viewCtx["filehash"] = filehash
