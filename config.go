@@ -14,9 +14,10 @@ import (
 )
 
 type accountConfig struct {
-	Password string   `yaml:"password"`
-	OAuth    []string `yaml:"oauth"`
-	Expiries []string
+	Password     string   `yaml:"password"`
+	OAuth        []string `yaml:"oauth"`
+	Expiries     []string
+	Visibilities []string
 }
 
 type filetypeConfig struct {
@@ -210,6 +211,23 @@ func (c *configuration) AllowedExpiries(username string) []*expiryConfig {
 	}
 
 	return result
+}
+
+func (c *configuration) AllowedVisibilities(username string) []string {
+	if username != "" {
+		acc := c.AccountByUsername(username)
+		if acc == nil {
+			result := make([]string, 0)
+			return result
+		}
+
+		// only restrict the subset if a list is given at all
+		if len(acc.Visibilities) > 0 {
+			return acc.Visibilities
+		}
+	}
+
+	return []string{"public", "internal", "private"}
 }
 
 func (c *configuration) Expiry(ident string) *expiryConfig {

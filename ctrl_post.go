@@ -27,17 +27,16 @@ func (p PostFormData) ExpiresAt(username string) (*time.Time, error) {
 	return nil, errors.New("Invalid expire value given.")
 }
 
-func (p PostFormData) VisibilityCode() (string, error) {
-	switch p.Visibility {
-	case "public":
-		fallthrough
-	case "internal":
-		fallthrough
-	case "private":
-		return p.Visibility, nil
-	default:
-		return "", errors.New("Invalid visibility value given.")
+func (p PostFormData) VisibilityCode(username string) (string, error) {
+	allowed := config.AllowedVisibilities(username)
+
+	for _, vis := range allowed {
+		if vis == p.Visibility {
+			return vis, nil
+		}
 	}
+
+	return "", errors.New("Invalid visibility value given.")
 }
 
 func (p PostFormData) Valid(username string) bool {
@@ -46,7 +45,7 @@ func (p PostFormData) Valid(username string) bool {
 		return false
 	}
 
-	_, err = p.VisibilityCode()
+	_, err = p.VisibilityCode(username)
 	if err != nil {
 		return false
 	}
@@ -92,11 +91,12 @@ func pasteAction(c *gin.Context) {
 	var err error
 
 	session := getSession(c)
+	username := session.Username()
 	errStatus := http.StatusInternalServerError
 
-	if c.Bind(&formData) == nil && formData.Valid(session.Username()) {
-		expiresAt, _ := formData.ExpiresAt(session.Username())
-		visibility, _ := formData.VisibilityCode()
+	if c.Bind(&formData) == nil && formData.Valid(username) {
+		expiresAt, _ := formData.ExpiresAt(username)
+		visibility, _ := formData.VisibilityCode(username)
 		ft := config.FileTypeByIdentifier(formData.FileType)
 
 		post := NewPostMetadata(
@@ -143,10 +143,11 @@ func uploadAction(c *gin.Context) {
 	var formData PostFormData
 
 	session := getSession(c)
+	username := session.Username()
 
-	if c.Bind(&formData) == nil && formData.Valid(session.Username()) {
-		expiresAt, _ := formData.ExpiresAt(session.Username())
-		visibility, _ := formData.VisibilityCode()
+	if c.Bind(&formData) == nil && formData.Valid(username) {
+		expiresAt, _ := formData.ExpiresAt(username)
+		visibility, _ := formData.VisibilityCode(username)
 
 		originalFilename := header.Filename
 		fileIdent := config.FileTypeIdentByFilename(originalFilename)

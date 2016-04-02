@@ -18,30 +18,39 @@
 				<div class="topmenu">
 					<div class="greeting">Howdy, <strong>{{.username}}</strong>!</div>
 					<div class="statusline">
+						{{if .hasOptions}}
 						<span class="statusicons">
 							{{if gt (len .expiries) 1}}
 							<span class="status-expire"><i class="fa fa-clock-o"></i></span>
 							{{end}}
+							{{if .canSelfdestruct}}
 							<span class="status-selfdestruct"><i class="fa fa-bomb"></i></span>
+							{{end}}
+							{{if gt (len .visibilities) 1}}
 							<span class="status-visibility">
-								<i class="fa fa-globe hidden visibility-public"></i>
-								<i class="fa fa-shield hidden visibility-internal"></i>
-								<i class="fa fa-lock hidden visibility-private"></i>
+								{{if .visibilities.public}}<i class="fa fa-globe hidden visibility-public"></i>{{end}}
+								{{if .visibilities.internal}}<i class="fa fa-shield hidden visibility-internal"></i>{{end}}
+								{{if .visibilities.private}}<i class="fa fa-lock hidden visibility-private"></i>{{end}}
 							</span>
+							{{end}}
 						</span>
 						<button type="button" class="btn btn-info btn-xs opttoggle"><i class="fa fa-cogs"></i> more</button>
+						{{end}}
 						<a href="/logout" class="postlink btn btn-danger btn-xs logout"><i class="fa fa-sign-out"></i> Logout</a>
 					</div>
 				</div>
 			</div>
 
 			<div class="group ext-options collapsed">
+				<input type="hidden" name="csrftoken" value="{{.csrfToken}}">
+
+				{{if .hasOptions}}
 				<h2>Options</h2>
+				{{end}}
 
 				{{if gt (len .expiries) 1}}
 				<div class="element dropdown">
 					<label class="label" for="expire">Expire after:</label>
-					<input type="hidden" name="csrftoken" value="{{.csrfToken}}">
 					<select name="expire" id="expire" class="form-control btn-sm">
 						{{range .expiries}}
 						<option value="{{.Key}}">{{.Value}}</option>
@@ -50,23 +59,31 @@
 				</div>
 				{{else}}
 					{{range .expiries}}
-					<input type="hidden" name="expire" value="{{.Key}}">
+					<input type="hidden" name="expire" id="expire" value="{{.Key}}">
 					{{end}}
 				{{end}}
 
+				{{if .canSelfdestruct}}
 				<div class="element checkbox">
 					<label class="label" for="selfdestruct">Selfdestruct:</label>
 					<label>
 						<input type="checkbox" name="selfdestruct" id="selfdestruct" value="1">delete after first access
 					</label>
 				</div>
+				{{end}}
 
+				{{if gt (len .visibilities) 1}}
 				<div class="element radio">
 					<div class="label">Visibility:</div>
-					<label><input type="radio" name="visibility" value="public"> <i class="fa fa-globe"></i> public <small>for everyone</small></label>
-					<label><input type="radio" name="visibility" value="internal"> <i class="fa fa-shield"></i> internal <small>for logged-in users</small></label>
-					<label><input type="radio" name="visibility" value="private"> <i class="fa fa-lock"></i> private <small>only for you</small></label>
+					{{if .visibilities.public}}<label><input type="radio" name="visibility" value="public"> <i class="fa fa-globe"></i> public <small>for everyone</small></label>{{end}}
+					{{if .visibilities.internal}}<label><input type="radio" name="visibility" value="internal"> <i class="fa fa-shield"></i> internal <small>for logged-in users</small></label>{{end}}
+					{{if .visibilities.private}}<label><input type="radio" name="visibility" value="private"> <i class="fa fa-lock"></i> private <small>only for you</small></label>{{end}}
 				</div>
+				{{else}}
+					{{range $key, $val := .visibilities}}
+					<input type="hidden" name="visibility" value="{{$key}}">
+					{{end}}
+				{{end}}
 			</div>
 
 			<div class="group history">

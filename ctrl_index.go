@@ -89,10 +89,26 @@ func getBaseHTMLContext(c *gin.Context) gin.H {
 		expiries = append(expiries, dropdownOption{Key: exp.Ident, Value: exp.Name})
 	}
 
+	visibilities := make(map[string]bool)
+	canSelfdestruct := false
+
+	for _, vis := range config.AllowedVisibilities(username) {
+		visibilities[vis] = true
+
+		if vis == "public" || vis == "internal" {
+			canSelfdestruct = true
+		}
+	}
+
+	hasOptions := len(expiries) > 1 || canSelfdestruct || len(visibilities) > 1
+
 	return gin.H{
-		"csrfToken": csrfToken,
-		"username":  username,
-		"languages": trees,
-		"expiries":  expiries,
+		"csrfToken":       csrfToken,
+		"username":        username,
+		"languages":       trees,
+		"expiries":        expiries,
+		"visibilities":    visibilities,
+		"canSelfdestruct": canSelfdestruct,
+		"hasOptions":      hasOptions,
 	}
 }

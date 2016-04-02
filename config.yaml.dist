@@ -24,6 +24,10 @@ accounts:
     # defined (see below) expiries are usable
     #expiries: [1hour, 1day, 1week]
 
+    # restrict the visibility levels available to this account.
+    # there are three: public, private, protected.
+    #visibilities: [internal, private]
+
 # To use OAuth, you have to register your own apps and configure them here accordingly.
 #oauth:
 #  google:
@@ -68,7 +72,8 @@ server:
 # they must each have a unique identifier, a name and then the ttl.
 # ttl lower than one day must be spcified using Go's time.Duration syntax (e.g. "12h" or "60m").
 # larger ttl values are given as a combination of days, months and years.
-# If neither is given, the expire option means "do not expire".
+# If neither is given, the expire option means "do not expire". You should give this one
+# the identifier "never", so the UI can dim it a bit.
 expiries:
   - ident: never
     name: do not expire

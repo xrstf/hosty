@@ -43,10 +43,10 @@ jQuery(function($) {
 	function readCookie() {
 		var val    = Cookies.get(cookieName);
 		var result = {
-			v: 'public', // visibility
-			s: false,    // selfdestruct
-			e: 'never',  // expire,
-			f: 'text',   // paste filetype
+			v: $('input[name=visibility]:first').val(),
+			s: false,               // selfdestruct
+			e: $('#expire').val(),
+			f: 'text',              // paste filetype
 		};
 
 		if (val) {
