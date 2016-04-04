@@ -135,6 +135,20 @@ pastebin:
       sql, swift, tex, text, twig, vbnet, vim, xml, xslt, yaml
     ]
 
+# Every client that carries a User-Agent header that matches any of these regexp
+# will be denied access to *self-destructing* files. This is so that these links
+# can be more easily shared via Skype or IM, without those networks accidentally
+# killing the content.
+# This is NOT a security feature! DO NOT attempt to use this to secure access to
+# anything. This is purely for convenience.
+blockedUserAgents:
+  - SkypeUriPreview
+  - Slackbot-LinkExpanding
+  - Slack-ImgProxy
+  - Slackbot
+  - TelegramBot
+  - Discordbot
+
 # all known filetypes; not that Hosty allows uploading *any* file, even
 # those not mentioned here. For unknown files, only a download link is
 # shown.

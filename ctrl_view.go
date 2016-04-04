@@ -34,21 +34,27 @@ func viewFileAction(c *gin.Context) {
 	sessionCtx := getSessionContext(c)
 	currentUser := sessionCtx.Username()
 	isOwner := currentUser == metadata.Uploader
-	allow := false
+	killItNow := metadata.Selfdestruct == selfdestructEnabled && !isOwner
+	stale := metadata.Selfdestruct == selfdestructHappened
+	allow := isOwner
 
-	// If the file was already destructed and only metadata remains, only the
-	// owner shall be able to see this metadata.
-	if metadata.Selfdestruct == selfdestructHappened {
+	if killItNow && isBlockedUserAgent(c.Request) {
+		c.HTML(http.StatusForbidden, "blocked-info.html", viewCtx)
+		return
+	}
+
+	if stale && !isOwner {
+		c.HTML(http.StatusNotFound, "not-found.html", viewCtx)
+		return
+	}
+
+	switch metadata.Visibility {
+	case "public":
+		allow = true
+	case "internal":
+		allow = sessionCtx.IsAuthenticated()
+	case "private":
 		allow = isOwner
-	} else {
-		switch metadata.Visibility {
-		case "public":
-			allow = true
-		case "internal":
-			allow = sessionCtx.IsAuthenticated()
-		case "private":
-			allow = isOwner
-		}
 	}
 
 	if !allow {
@@ -64,7 +70,6 @@ func viewFileAction(c *gin.Context) {
 
 	content := make([]byte, 0)
 	vanished := false
-	stale := metadata.Selfdestruct == selfdestructHappened
 
 	fileType := config.FileTypeByIdentifier(metadata.FileType)
 
@@ -84,7 +89,7 @@ func viewFileAction(c *gin.Context) {
 			}
 		}
 
-		if metadata.Selfdestruct == selfdestructEnabled && !isOwner {
+		if killItNow {
 			if store.Selfdestruct(metadata, c.Request, currentUser) != nil {
 				// do not reveal the content if destructing it has failed for some reason
 				c.HTML(http.StatusNotFound, "not-found.html", viewCtx)
@@ -185,6 +190,11 @@ func rawFileAction(c *gin.Context) {
 	}
 
 	if metadata.Selfdestruct == selfdestructEnabled && !isOwner {
+		if isBlockedUserAgent(c.Request) {
+			c.String(http.StatusForbidden, "Access to this content is not allowed for preview/crawler bots. Please access this link via your browser directly.")
+			return
+		}
+
 		defer func() {
 			store.Selfdestruct(metadata, c.Request, currentUser)
 		}()

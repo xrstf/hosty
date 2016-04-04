@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"net/http"
 	"os"
 	"os/exec"
 	"strings"
@@ -144,4 +145,16 @@ func getSessionContext(c *gin.Context) session.Context {
 func getSession(c *gin.Context) *session.Session {
 	ctx := getSessionContext(c)
 	return ctx.Session()
+}
+
+func isBlockedUserAgent(req *http.Request) bool {
+	ua := req.UserAgent()
+
+	for _, exp := range config.blockedUARegexps {
+		if exp.MatchString(ua) {
+			return true
+		}
+	}
+
+	return false
 }

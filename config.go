@@ -5,6 +5,7 @@ import (
 	"errors"
 	"io/ioutil"
 	"path/filepath"
+	"regexp"
 	"strings"
 	"time"
 
@@ -30,12 +31,12 @@ type filetypeConfig struct {
 }
 
 type expiryConfig struct {
-	Ident    string
-	Name     string
-	Duration string
-	Days     int
-	Months   int
-	Years    int
+	Ident    string `yaml:"ident"`
+	Name     string `yaml:"name"`
+	Duration string `yaml:"duration"`
+	Days     int    `yaml:"days"`
+	Months   int    `yaml:"months"`
+	Years    int    `yaml:"years"`
 }
 
 func (e expiryConfig) AddTo(t time.Time) (*time.Time, error) {
@@ -67,7 +68,7 @@ type configuration struct {
 		Storage   string `yaml:"storage"`
 		Resources string `yaml:"resources"`
 		Www       string `yaml:"www"`
-	}
+	} `yaml:"directories"`
 
 	Accounts map[string]accountConfig `yaml:"accounts"`
 
@@ -75,15 +76,17 @@ type configuration struct {
 		ClientID     string   `yaml:"clientId"`
 		ClientSecret string   `yaml:"clientSecret"`
 		Scopes       []string `yaml:"scopes"`
-	}
+	} `yaml:"oauth"`
 
 	Pastebin []struct {
 		Name      string   `yaml:"name"`
 		FileTypes []string `yaml:"filetypes"`
-	}
+	} `yaml:"pastebin"`
 
-	Expiries  []expiryConfig
-	FileTypes map[string]filetypeConfig
+	blockedUARegexps  []*regexp.Regexp
+	BlockedUserAgents []string                  `yaml:"blockedUserAgents"`
+	Expiries          []expiryConfig            `yaml:"expiries"`
+	FileTypes         map[string]filetypeConfig `yaml:"filetypes"`
 
 	Server struct {
 		Listen          string   `yaml:"listen"`
@@ -111,8 +114,17 @@ func loadConfiguration(filename string, hostyPath string) (*configuration, error
 
 	config := configuration{}
 
-	if yaml.Unmarshal(content, &config) != nil {
-		return &config, errors.New("Could not load configuration file '" + filename + "'. Make sure all values are valid, especially the session lifetime needs to be parsable.")
+	if err := yaml.Unmarshal(content, &config); err != nil {
+		return &config, errors.New("Could not load configuration file '" + filename + "': " + err.Error())
+	}
+
+	for _, expr := range config.BlockedUserAgents {
+		rx, err := regexp.Compile(expr)
+		if err != nil {
+			return &config, errors.New("Could not load configuration file '" + filename + "': " + err.Error())
+		}
+
+		config.blockedUARegexps = append(config.blockedUARegexps, rx)
 	}
 
 	// perform some sanity checks

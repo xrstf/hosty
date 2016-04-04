@@ -8,7 +8,7 @@ build: fix
 
 fix: *.go
 	goimports -l -w .
-	gofmt -l -w .
+	gofmt -l -w -s .
 
 fire:
 	./hosty serve config.yaml
