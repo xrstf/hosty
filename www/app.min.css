@@ -540,7 +540,7 @@ body.index{padding:15px}
 .controls .alert{margin-bottom:0;display:inline-block;padding:7px 10px;vertical-align:middle}.controls .alert.btn-block{margin-top:10px}
 .controls .language{margin-top:10px}
 .controls .buttons{margin-top:10px;text-align:center}.controls .buttons .btn{width:45%;padding:8px 9px}
-@media (min-width:992px){.controls .buttons{margin-top:inherit;text-align:inherit}.controls .buttons .btn{width:auto}}.paste .cell{padding-top:10px}
+@media (min-width:992px){.controls .buttons{margin-top:inherit;text-align:inherit}.controls .buttons .btn{width:auto}}.paste .cell{padding-top:10px;height:100%}
 .paste textarea{height:150px;width:100%;font-family:monospace}
 ul.history{margin-top:10px;padding-left:0}ul.history li{list-style-type:none;padding-bottom:5px}
 ul.history small{display:block;padding-left:14px;color:#999}
