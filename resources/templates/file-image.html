@@ -11,41 +11,8 @@
 </head>
 <body class="view">
 	<div class="container">
-		<div class="row" id="file-header">
-			{{if .username}}
-				<div class="col-lg-10 col-md-10 col-sm-9 col-xs-12">
-					<h1>{{shorten .file.Name 50}}</h1>
-				</div>
-				<div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
-					{{if .isOwner}}
-					<form method="post" action="{{.viewURI}}">
-						<h1 class="filebuttons">
-							<input type="hidden" name="csrftoken" value="{{.csrfToken}}">
-							<input type="hidden" name="_method" value="DELETE">
-							<button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i> Delete</button>
-							<a href="/" class="btn btn-default btn-sm"><i class="fa fa-home"></i></a>
-						</h1>
-					</form>
-					{{else}}
-					<h1 class="filebuttons">
-						<a href="/" class="btn btn-default btn-sm"><i class="fa fa-home"></i></a>
-					</h1>
-					{{end}}
-				</div>
-			{{else}}
-				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-					<h1>{{.file.Name}}</h1>
-				</div>
-			{{end}}
-		</div>
-
-		{{if and .username .isOwner .expires}}
-		<div class="row">
-			<div class="col-lg-12 text-center">
-				<small>(expires {{timeago .file.ExpiresTime}})</small>
-			</div>
-		</div>
-		{{end}}
+		{{template "fileViewHeader" .}}
+		{{template "fileViewExpiry" .}}
 
 		{{$showDownloadLink := false}}
 
@@ -53,26 +20,7 @@
 		<div class="row">
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 				{{if .stale}}
-					<div class="alert alert-info">
-						<h4><i class="fa fa-bomb"></i> Self Destructed</h4>
-						<p>
-							This content has already been accessed and deleted; all that is left is some meta information.<br>
-							You can delete the remainders as well by using the regular delete function above.
-						</p>
-					</div>
-
-					<dl class="dl-horizontal">
-						{{with .file.DestructorData}}
-						<dt>Access at</dt>
-						<dd>{{.Time}}</dd>
-						<dt>Access by</dt>
-						<dd>{{if eq .Username ""}}anonymous user{{else}}{{.Username}}{{end}}</dd>
-						<dt>User Agent</dt>
-						<dd>{{.UserAgent}}</dd>
-						<dt>IP Address</dt>
-						<dd>{{.IpAddress}}</dd>
-						{{end}}
-					</dl>
+					{{template "staleFileInfo" .}}
 				{{else if eq .file.Selfdestruct 1}}
 					{{if .isOwner}}
 					<div class="alert alert-info">
