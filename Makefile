@@ -2,8 +2,6 @@ default: build
 run: build fire
 
 build: fix
-	echo package main > version.go
-	git log -n 1 --format="const version = \"%h\"" >> version.go
 	go build -v .
 
 fix: *.go
