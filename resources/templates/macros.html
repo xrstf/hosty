@@ -29,10 +29,10 @@
 {{end}}
 
 {{define "fileViewExpiry"}}
-	{{if and .username .isOwner .expires}}
+	{{if and .username .isOwner .file.Expires}}
 	<div class="row">
 		<div class="col-lg-12 text-center">
-			<small>(expires {{timeago .file.ExpiresTime}})</small>
+			<small class="text-muted">(expires {{timeago .file.ExpiresTime}})</small>
 		</div>
 	</div>
 	{{end}}
