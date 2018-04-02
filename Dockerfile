@@ -10,4 +10,7 @@ FROM alpine:3.7
 RUN apk --no-cache add ca-certificates
 WORKDIR /app
 COPY --from=builder /go/src/github.com/xrstf/hosty/hosty .
+COPY --from=builder /go/src/github.com/xrstf/hosty/www www
+COPY --from=builder /go/src/github.com/xrstf/hosty/resources resources
+EXPOSE 80
 ENTRYPOINT ["./hosty"]
