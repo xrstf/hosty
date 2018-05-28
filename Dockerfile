@@ -7,7 +7,7 @@ RUN make deps build
 
 FROM alpine:3.7
 
-RUN apk --no-cache add ca-certificates
+RUN apk --no-cache add ca-certificates py-pygments
 WORKDIR /app
 COPY --from=builder /go/src/github.com/xrstf/hosty/hosty .
 COPY --from=builder /go/src/github.com/xrstf/hosty/www www
