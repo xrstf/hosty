@@ -513,6 +513,7 @@ body .pygments-il{color:#666}
 h1,h2,h3,h4,p{font-family:"Open Sans",sans-serif}
 pre{font-size:12px;font-family:monospace !important}
 .form-control{padding:5px 9px;height:39px;font-size:14px}
+table a:not(.btn),.table a:not(.btn){text-decoration:none}table a:not(.btn):hover,.table a:not(.btn):hover,table a:not(.btn):active,.table a:not(.btn):active,table a:not(.btn):focus,.table a:not(.btn):focus{text-decoration:underline}
 body.index{padding:15px}
 .history-link{margin:15px 0 10px 0}
 .collapsed{display:none}
@@ -565,3 +566,82 @@ ul.history small{display:block;padding-left:14px;color:#999}
 @media (min-width:768px){.filebuttons{text-align:right;margin-top:20px}}body.login h1{font-size:27px}
 body.history{padding:15px}body.history .content h2{margin-top:0}
 @media (min-width:768px){body.history{padding:0}body.history .content{position:inherit;margin-left:250px}body.history .content h2{margin-top:15px}}
+body,html,.drop-help,pre{background:#2a2a2e;color:#b1b1b3}
+a{color:#74bfff}a:hover,a:active,a:focus{color:#74bfff}
+.table-striped>tbody>tr:nth-of-type(2n+1),#uploads li:nth-child(2n){background-color:#1e1e21}
+.form-control{background:#181d20;color:#b1b1b3;border-color:#3c3c3d}
+select optgroup{background:#0d1011}
+.well,.ext-options,pre{background:#252528;border-color:#3c3c3d}
+@media (min-width:768px){.sidebar{background:#1b1b1d;-moz-box-shadow:inset -16px 0 20px -20px #111;-webkit-box-shadow:inset -16px 0 20px -20px #111;box-shadow:inset -16px 0 20px -20px #111} .ext-options{background:transparent}}.statusicons span.disabled{opacity:0.5}.statusicons span.disabled .fa{color:#b1b1b3}
+.fileicon svg{fill:#b1b1b3;stroke:#b1b1b3}
+.highlighted pre{color:#cbcbcc}
+body{}body .pygments-hll{background-color:#49483e}
+body .pygments-c{color:#75715e}
+body .pygments-err{color:#960050;background-color:#1e0010}
+body .pygments-k{color:#66d9ef}
+body .pygments-l{color:#ae81ff}
+body .pygments-n{color:#f8f8f2}
+body .pygments-o{color:#f92672}
+body .pygments-p{color:#f8f8f2}
+body .pygments-ch{color:#75715e}
+body .pygments-cm{color:#75715e}
+body .pygments-cp{color:#75715e}
+body .pygments-cpf{color:#75715e}
+body .pygments-c1{color:#75715e}
+body .pygments-cs{color:#75715e}
+body .pygments-gd{color:#f92672}
+body .pygments-ge{font-style:italic}
+body .pygments-gi{color:#a6e22e}
+body .pygments-gh{color:#7676fd}
+body .pygments-gs{font-weight:bold}
+body .pygments-gu{color:#75715e}
+body .pygments-kc{color:#66d9ef}
+body .pygments-kd{color:#66d9ef}
+body .pygments-kn{color:#f92672}
+body .pygments-kp{color:#66d9ef}
+body .pygments-kr{color:#66d9ef}
+body .pygments-kt{color:#66d9ef}
+body .pygments-ld{color:#e6db74}
+body .pygments-m{color:#ae81ff}
+body .pygments-s{color:#e6db74}
+body .pygments-na{color:#a6e22e}
+body .pygments-nb{color:#f8f8f2}
+body .pygments-nc{color:#a6e22e}
+body .pygments-no{color:#66d9ef}
+body .pygments-nd{color:#a6e22e}
+body .pygments-ni{color:#f8f8f2}
+body .pygments-ne{color:#a6e22e}
+body .pygments-nf{color:#a6e22e}
+body .pygments-nl{color:#f8f8f2}
+body .pygments-nn{color:#f8f8f2}
+body .pygments-nx{color:#a6e22e}
+body .pygments-py{color:#f8f8f2}
+body .pygments-nt{color:#f92672}
+body .pygments-nv{color:#f8f8f2}
+body .pygments-ow{color:#f92672}
+body .pygments-w{color:#f8f8f2}
+body .pygments-mb{color:#ae81ff}
+body .pygments-mf{color:#ae81ff}
+body .pygments-mh{color:#ae81ff}
+body .pygments-mi{color:#ae81ff}
+body .pygments-mo{color:#ae81ff}
+body .pygments-sa{color:#e6db74}
+body .pygments-sb{color:#e6db74}
+body .pygments-sc{color:#e6db74}
+body .pygments-dl{color:#e6db74}
+body .pygments-sd{color:#e6db74}
+body .pygments-s2{color:#e6db74}
+body .pygments-se{color:#ae81ff}
+body .pygments-sh{color:#e6db74}
+body .pygments-si{color:#e6db74}
+body .pygments-sx{color:#e6db74}
+body .pygments-sr{color:#e6db74}
+body .pygments-s1{color:#e6db74}
+body .pygments-ss{color:#e6db74}
+body .pygments-bp{color:#f8f8f2}
+body .pygments-fm{color:#a6e22e}
+body .pygments-vc{color:#f8f8f2}
+body .pygments-vg{color:#f8f8f2}
+body .pygments-vi{color:#f8f8f2}
+body .pygments-vm{color:#f8f8f2}
+body .pygments-il{color:#ae81ff}

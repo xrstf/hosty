@@ -34,6 +34,16 @@ pre {
 	font-size: 14px;
 }
 
+table, .table {
+	a:not(.btn) {
+		text-decoration: none;
+
+		&:hover, &:active, &:focus {
+			text-decoration: underline;
+		}
+	}
+}
+
 /* general layout: index page, extra small viewport */
 
 body.index {
@@ -660,3 +670,5 @@ body.history {
 		}
 	}
 }
+
+@import "dark.less";
