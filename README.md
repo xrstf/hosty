@@ -26,7 +26,7 @@ social media crap or other external resources.
 Requirements
 ------------
 
-* Go 1.5
+* Go 1.20
 * On Windows, you need to be able to build [go-sqlite3](https://github.com/mattn/go-sqlite3).
 
 For working on the frontend UI, you will also need Grunt, Bower and npm. Sorry.
@@ -34,7 +34,7 @@ For working on the frontend UI, you will also need Grunt, Bower and npm. Sorry.
 Installation
 ------------
 
-* ``go get github.com/xrstf/hosty`` -- please use ``make`` to make (sic) sure
+* ``go install go.xrstf.de/hosty`` -- please use ``make`` to make (sic) sure
   that the version stamp is correct.
 * Copy the ``config.yaml.dist``, name it as you like (e.g. ``config.yaml``) and
   adjust it to your needs.

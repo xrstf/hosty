@@ -17,7 +17,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/jmoiron/sqlx"
 	_ "github.com/mattn/go-sqlite3"
-	"github.com/xrstf/hosty/session"
+	"go.xrstf.de/hosty/session"
 )
 
 func connectToDatabase(filename string) *sqlx.DB {

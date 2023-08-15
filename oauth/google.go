@@ -7,7 +7,7 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/xrstf/hosty/session"
+	"go.xrstf.de/hosty/session"
 )
 
 type googleProvider struct {

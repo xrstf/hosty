@@ -3,7 +3,7 @@ package oauth
 import (
 	"net/http"
 
-	"github.com/xrstf/hosty/session"
+	"go.xrstf.de/hosty/session"
 )
 
 type Provider interface {

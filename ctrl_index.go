@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/xrstf/hosty/session"
+	"go.xrstf.de/hosty/session"
 )
 
 func setupIndexCtrl(r *gin.Engine) {

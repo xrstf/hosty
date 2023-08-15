@@ -7,7 +7,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/jmoiron/sqlx"
-	"github.com/xrstf/hosty/session"
+	"go.xrstf.de/hosty/session"
 )
 
 const (

@@ -1,16 +1,16 @@
-FROM golang:1.10-alpine as builder
+FROM golang:1.20-alpine as builder
 
 RUN apk add --update make git gcc musl-dev
-WORKDIR /go/src/github.com/xrstf/hosty/
+WORKDIR /go/src/go.xrstf.de/hosty/
 COPY . .
-RUN make deps build
+RUN make build
 
-FROM alpine:3.7
+FROM alpine:3.17
 
 RUN apk --no-cache add ca-certificates py-pygments
 WORKDIR /app
-COPY --from=builder /go/src/github.com/xrstf/hosty/hosty .
-COPY --from=builder /go/src/github.com/xrstf/hosty/www www
-COPY --from=builder /go/src/github.com/xrstf/hosty/resources resources
+COPY --from=builder /go/src/go.xrstf.de/hosty/hosty .
+COPY --from=builder /go/src/go.xrstf.de/hosty/www www
+COPY --from=builder /go/src/go.xrstf.de/hosty/resources resources
 EXPOSE 80
 ENTRYPOINT ["./hosty"]

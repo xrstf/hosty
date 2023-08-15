@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/xrstf/hosty/oauth"
+	"go.xrstf.de/hosty/oauth"
 )
 
 func setupOAuthCtrl(r *gin.Engine) {
