@@ -1,5 +1,11 @@
-Hosty - File Hosting for Minimalists
-====================================
+# Migration note
+
+> [!IMPORTANT]
+> `hosty` has been migrated to [codeberg.org/xrstf/hosty](https://codeberg.org/xrstf/hosty).
+
+---
+
+## Hosty - File Hosting for Minimalists
 
 Hosty is a tiny Go application to host arbitrary files on your own webserver.
 It's meant to be as small as possible and hence offers only the following:
@@ -23,16 +29,14 @@ It's meant to be as small as possible and hence offers only the following:
 That's it. There is no admin UI, no commenting, no tagging, no folders, no
 social media crap or other external resources.
 
-Requirements
-------------
+### Requirements
 
 * Go 1.20
 * On Windows, you need to be able to build [go-sqlite3](https://github.com/mattn/go-sqlite3).
 
 For working on the frontend UI, you will also need Grunt, Bower and npm. Sorry.
 
-Installation
-------------
+### Installation
 
 * ``go install go.xrstf.de/hosty`` -- please use ``make`` to make (sic) sure
   that the version stamp is correct.
@@ -43,34 +47,32 @@ Installation
 If you want, you can use the ``resources/systemd/hosty.service`` as an example
 for a systemd service.
 
-Screenshots
------------
+### Screenshots
 
-### Login screen
+#### Login screen
 
 ![Login Screen](https://h.xrstf.de/r/PGEpXOMTeLjhnQmrTBeThjSVjZVpgMjCvuRBbKaekm/hosty-login.png)
 
-### File Upload View
+#### File Upload View
 
 ![File Upload View](https://h.xrstf.de/r/PEzXhNNHgQCXwyrgOuZTLxEUddjQWxcIRWlBMsQWuD/hosty-index.png)
 
-### Mobile View
+#### Mobile View
 
 ![Mobile View](https://h.xrstf.de/r/ITeJyfdWXZKnfsTCNfpEihInQzJnqeFRQfqOQorzEG/hosty-mobile.png)
 
-### Image View
+#### Image View
 
 ![Image View](https://h.xrstf.de/r/MeVpSQXspEWcSxxCVHlHVcwGxqoTZZnZYSNzUBYXFb/hosty-image.png)
 
-### Text View
+#### Text View
 
 ![Text View](https://h.xrstf.de/r/ZAbkAPInDWAQRUrKnCFpZjLhAGGhkxGqqpoDPPwwWK/hosty-text.png)
 
-### File View
+#### File View
 
 ![File View](https://h.xrstf.de/r/BuHLIbyCNMEbbOgDgocQAwigxWIVuOPGSYhmnkPUxG/hosty-file.png)
 
-License
--------
+### License
 
 Hosty is licensed under the MIT license.
